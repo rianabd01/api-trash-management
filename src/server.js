@@ -6,7 +6,7 @@ const sequelize = require('./sequelize');
 const init = async () => {
   const server = Hapi.server({
     port: 5000,
-    host: 'localhost',
+    host: '3.1.220.87',
   });
 
   await server.register(Inert);
