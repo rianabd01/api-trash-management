@@ -53,7 +53,7 @@ const postTrashHandler = async (request, h) => {
         fileStream.on('error', reject);
       });
 
-      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${trashId}/image-${index}.jpg`;
+      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${trashId}/${imageName}`;
       await Pictures.create(
         { image_path: insertImagePath, trash_id: trashId },
         { transaction }
