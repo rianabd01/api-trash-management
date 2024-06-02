@@ -1,2 +1,4 @@
 node_modules
 .env
+Rian-Keypair.pem
+.gitignore
