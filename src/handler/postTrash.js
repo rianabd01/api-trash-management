@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
-/* eslint-disable comma-dangle */
 const fs = require('fs');
 const Path = require('path');
+const randomstring = require('randomstring');
+const sharp = require('sharp');
 const sequelize = require('../sequelize');
-const { Trash, Pictures } = require('../models/model');
+const { Trash, Pictures } = require('../associations/index');
 
 const postTrashHandler = async (request, h) => {
   const { payload } = request;
-  // eslint-disable-next-line object-curly-newline
   const {
     title,
     description,
@@ -24,11 +24,16 @@ const postTrashHandler = async (request, h) => {
     // Mulai transaksi
     transaction = await sequelize.transaction();
 
-    // Simpan data film
+    // Simpan data trash
     const trash = await Trash.create(
-      // eslint-disable-next-line object-curly-newline
-      { title, description, city_id, address, location_url },
-      { transaction }
+      {
+        title,
+        description,
+        city_id,
+        address,
+        location_url,
+      },
+      { transaction },
     );
 
     // Fungsi untuk menyimpan gambar
@@ -38,25 +43,47 @@ const postTrashHandler = async (request, h) => {
         '..',
         '..',
         'uploads',
-        String(trashId)
+        String(trashId),
       );
+
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
       }
-      const imageName = `image-${index}.${image.hapi.filename
-        .split('.')
-        .pop()}`;
+
+      const extension = image.hapi.filename.split('.').pop();
+      const imageName = `${randomstring.generate({
+        length: 12,
+        charset: 'alphabetic',
+      })}${index}.${extension}`;
+
       const imagePath = Path.resolve(dirPath, imageName);
-      const fileStream = image.pipe(fs.createWriteStream(imagePath));
-      await new Promise((resolve, reject) => {
-        fileStream.on('finish', resolve);
-        fileStream.on('error', reject);
+
+      const fileBuffer = await new Promise((resolve, reject) => {
+        const chunks = [];
+        image.on('data', (chunk) => chunks.push(chunk));
+        image.on('end', () => resolve(Buffer.concat(chunks)));
+        image.on('error', reject);
       });
+
+      const sharpInstance = sharp(fileBuffer);
+
+      const metadata = await sharpInstance.metadata();
+      if (fileBuffer.length > 300 * 1024) {
+        if (metadata.format === 'jpeg' || metadata.format === 'jpg') {
+          await sharpInstance.jpeg({ quality: 80 }).toFile(imagePath);
+        } else if (metadata.format === 'png') {
+          await sharpInstance.png({ compressionLevel: 8 }).toFile(imagePath);
+        } else {
+          await sharpInstance.toFile(imagePath); // Default behavior for other formats
+        }
+      } else {
+        fs.writeFileSync(imagePath, fileBuffer);
+      }
 
       const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${trashId}/${imageName}`;
       await Pictures.create(
         { image_path: insertImagePath, trash_id: trashId },
-        { transaction }
+        { transaction },
       );
     };
 
@@ -64,16 +91,27 @@ const postTrashHandler = async (request, h) => {
     await saveImage(gambar1, trash.trash_id, 1);
     await saveImage(gambar2, trash.trash_id, 2);
     await saveImage(gambar3, trash.trash_id, 3);
-
     // Commit transaksi
     await transaction.commit();
 
-    return h.response({ message: 'Upload berhasil!' }).code(201);
+    return h
+      .response({
+        status: 'success',
+        message: 'upload success!',
+        data: {
+          trash_id: trash.trash_id,
+        },
+      })
+      .code(201);
   } catch (error) {
-    // Rollback transaksi jika ada error
     if (transaction) await transaction.rollback();
-    console.error(error);
-    return h.response({ message: 'Upload gagal!', error }).code(500);
+    return h
+      .response({
+        status: 'fail',
+        message: 'upload failed!',
+        error,
+      })
+      .code(500);
   }
 };
 

@@ -1,7 +1,6 @@
 /* eslint-disable comma-dangle */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
-const { Pictures } = require('./pictures');
 
 const Trash = sequelize.define(
   'Trash',
@@ -16,13 +15,14 @@ const Trash = sequelize.define(
     city_id: { type: DataTypes.INTEGER, allowNull: false },
     address: { type: DataTypes.STRING, allowNull: false },
     location_url: { type: DataTypes.STRING, allowNull: false },
+    user_uploader_id: { type: DataTypes.INTEGER, allowNull: true },
+    is_verified: { type: DataTypes.TINYINT, allowNull: true },
+    is_deleted: { type: DataTypes.TINYINT, allowNull: true },
   },
   {
     tableName: 'trash',
     timestamps: false,
-  }
+  },
 );
 
-Trash.hasMany(Pictures, { as: 'pictures', foreignKey: 'trash_id' });
-
-module.exports = { Trash };
+module.exports = Trash;

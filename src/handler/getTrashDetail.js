@@ -1,6 +1,5 @@
-// const Pictures = require('../models/pictures');
-// const Trash = require('../models/trash');
-const { Trash, Pictures } = require('../models/model');
+// eslint-disable-next-line object-curly-newline
+const { Trash, Pictures, Cities, Users } = require('../associations/index');
 
 const getTrashDetail = async (request, h) => {
   const { id } = request.params;
@@ -12,27 +11,57 @@ const getTrashDetail = async (request, h) => {
           as: 'pictures',
           attributes: ['image_path'],
         },
+        {
+          model: Cities,
+          as: 'cities',
+          attributes: ['name'],
+        },
+        {
+          model: Users,
+          as: 'users',
+          attributes: ['full_name', 'user_id'],
+        },
       ],
     });
 
     if (!trash) {
-      return h.response({ message: 'Sampah tidak ditemukan' }).code(404);
+      return h
+        .response({
+          status: 'fail',
+          message: 'trash not found',
+        })
+        .code(404);
     }
 
     const result = {
       id: trash.trash_id,
       title: trash.title,
       description: trash.description,
-      city_id: trash.city_id,
+      city: trash.cities.name,
       address: trash.address,
       location_url: trash.location_url,
+      uploader_id: trash.users.user_id === 3 ? 'Publik' : trash.users.user_id,
+      uploader: trash.users.full_name,
       pictures: trash.pictures.map((picture) => picture.image_path),
+      is_verified: trash.is_verified,
+      is_deleted: trash.is_deleted,
     };
 
-    return h.response(result).code(200);
+    return h
+      .response({
+        status: 'success',
+        message: 'success GET detail',
+        result,
+      })
+      .code(200);
   } catch (error) {
-    console.error(error);
-    return h.response({ message: 'Terjadi kesalahan', error }).code(500);
+    return h
+      .response({
+        status: 'fail',
+        message: 'something wrong',
+        error,
+      })
+      .code(500);
   }
 };
 

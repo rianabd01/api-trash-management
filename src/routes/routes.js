@@ -1,4 +1,5 @@
 const getTrashDetail = require('../handler/getTrashDetail');
+const getTrashList = require('../handler/getTrashList');
 const postTrashHandler = require('../handler/postTrash');
 
 const routes = [
@@ -17,8 +18,18 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/trash/{id}',
+    path: '/trash/detail/{id}',
     handler: getTrashDetail,
+  },
+  {
+    method: 'GET',
+    path: '/trash',
+    handler: getTrashList,
+  },
+  {
+    method: 'GET',
+    path: '/*',
+    handler: () => 'Cannot access',
   },
 ];
 
