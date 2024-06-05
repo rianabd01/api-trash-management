@@ -8,6 +8,15 @@ dotenv.config();
 const loginHandler = async (request, h) => {
   const { username, password } = request.payload;
 
+  // Columns Validation
+  if (!username || !password) {
+    return h
+      .response({
+        status: 'fail',
+        message: 'please fill all columns',
+      })
+      .code(400);
+  }
   // Find user in database
   const user = await Users.findOne({ where: { username } });
   if (!user) {
@@ -40,12 +49,14 @@ const loginHandler = async (request, h) => {
     { expiresIn: '1h' },
   );
 
-  return h.response({
-    status: 'success',
-    message: "you're logged in",
-    token,
-    user_id: user.user_id,
-  });
+  return h
+    .response({
+      status: 'success',
+      message: "you're logged in",
+      token,
+      user_id: user.user_id,
+    })
+    .code(200);
 };
 
 module.exports = loginHandler;
