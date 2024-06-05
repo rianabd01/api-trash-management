@@ -7,7 +7,6 @@ const sequelize = require('../sequelize');
 const { Trash, Pictures } = require('../associations/index');
 
 const postTrashHandler = async (request, h) => {
-  const { payload } = request;
   const {
     title,
     description,
@@ -17,14 +16,11 @@ const postTrashHandler = async (request, h) => {
     gambar1,
     gambar2,
     gambar3,
-  } = payload;
+  } = request.payload;
 
   let transaction;
   try {
-    // Mulai transaksi
     transaction = await sequelize.transaction();
-
-    // Simpan data trash
     const trash = await Trash.create(
       {
         title,
@@ -36,7 +32,7 @@ const postTrashHandler = async (request, h) => {
       { transaction },
     );
 
-    // Fungsi untuk menyimpan gambar
+    // Save image function
     const saveImage = async (image, trashId, index) => {
       const dirPath = Path.resolve(
         __dirname,
@@ -74,7 +70,7 @@ const postTrashHandler = async (request, h) => {
         } else if (metadata.format === 'png') {
           await sharpInstance.png({ compressionLevel: 8 }).toFile(imagePath);
         } else {
-          await sharpInstance.toFile(imagePath); // Default behavior for other formats
+          await sharpInstance.toFile(imagePath);
         }
       } else {
         fs.writeFileSync(imagePath, fileBuffer);
@@ -87,11 +83,11 @@ const postTrashHandler = async (request, h) => {
       );
     };
 
-    // Simpan gambar
+    // Save image usage
     await saveImage(gambar1, trash.trash_id, 1);
     await saveImage(gambar2, trash.trash_id, 2);
     await saveImage(gambar3, trash.trash_id, 3);
-    // Commit transaksi
+
     await transaction.commit();
 
     return h
