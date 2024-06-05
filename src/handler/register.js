@@ -25,7 +25,7 @@ const registerHandler = async (request, h) => {
         status: 'fail',
         message: 'username has been used',
       })
-      .code(400);
+      .code(401);
   }
 
   // Unique Email Validation
@@ -36,7 +36,7 @@ const registerHandler = async (request, h) => {
         status: 'fail',
         message: 'email has been used',
       })
-      .code(400);
+      .code(401);
   }
 
   let transaction;
