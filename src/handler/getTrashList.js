@@ -1,10 +1,10 @@
 const { Op } = require('sequelize');
 const { Trash, Pictures, Cities } = require('../associations/index');
+const sequelize = require('../sequelize');
 
 const getTrashList = async (request, h) => {
   const { location, page = 1 } = request.query;
 
-  // Menghitung offset
   const limit = 20;
   const offset = (page - 1) * limit;
 
@@ -26,12 +26,18 @@ const getTrashList = async (request, h) => {
       where: {
         is_verified: 1,
         is_deleted: 0,
+
+        // Check if anyone has send proof
+        trash_id: {
+          [Op.notIn]: sequelize.literal('(SELECT trash_id FROM trash_proof)'),
+        },
       },
 
-      limit, // Menetapkan limit
-      offset, // Menetapkan offset
+      limit,
+      offset,
     });
 
+    // Check if trash list not found
     if (!trashList || trashList.length === 0) {
       return h
         .response({
@@ -41,6 +47,7 @@ const getTrashList = async (request, h) => {
         .code(404);
     }
 
+    // Result if found
     const result = trashList.map((trash) => ({
       trash_id: trash.trash_id,
       title: trash.title,

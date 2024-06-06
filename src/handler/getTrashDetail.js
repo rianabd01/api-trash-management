@@ -1,9 +1,32 @@
 // eslint-disable-next-line object-curly-newline
-const { Trash, Pictures, Cities, Users } = require('../associations/index');
+const {
+  Trash,
+  Pictures,
+  Cities,
+  Users,
+  TrashProof,
+} = require('../associations/index');
 
 const getTrashDetail = async (request, h) => {
   const { id } = request.params;
+
   try {
+    // Check if anyone has send proof
+    const proofExists = await TrashProof.findOne({
+      where: {
+        trash_id: id,
+      },
+    });
+    if (proofExists) {
+      return h
+        .response({
+          status: 'fail',
+          message: 'Trash is pending',
+        })
+        .code(403);
+    }
+
+    // Find trash by id
     const trash = await Trash.findByPk(id, {
       include: [
         {
@@ -24,6 +47,7 @@ const getTrashDetail = async (request, h) => {
       ],
     });
 
+    // Check if trash not found
     if (!trash) {
       return h
         .response({

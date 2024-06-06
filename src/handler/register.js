@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const validator = require('validator');
 const { Users } = require('../associations/index');
 const sequelize = require('../sequelize');
 
@@ -7,7 +8,7 @@ const registerHandler = async (request, h) => {
   const { username, password, date_of_birth, full_name, email } =
     request.payload;
 
-  // Columns Validation
+  // Check Columns Validation
   if (!username || !password || !date_of_birth || !full_name || !email) {
     return h
       .response({
@@ -17,7 +18,7 @@ const registerHandler = async (request, h) => {
       .code(400);
   }
 
-  // Unique Username Validation
+  // Check is username exist
   const checkUsername = await Users.findOne({ where: { username } });
   if (checkUsername) {
     return h
@@ -28,7 +29,30 @@ const registerHandler = async (request, h) => {
       .code(401);
   }
 
-  // Unique Email Validation
+  // Check is email valid
+  const isEmail = validator.isEmail(email);
+  if (!isEmail) {
+    return h
+      .response({
+        status: 'fail',
+        message: 'email invalid',
+      })
+      .code(401);
+  }
+  // Check email domain
+  const emailDomain = email.split('@')[1];
+  const isEmailDomainValid = validator.isFQDN(emailDomain);
+  console.log(emailDomain, isEmailDomainValid);
+  if (!isEmailDomainValid) {
+    return h
+      .response({
+        status: 'fail',
+        message: 'email domain invalid',
+      })
+      .code(401);
+  }
+
+  // Check is email exist
   const checkEmail = await Users.findOne({ where: { email } });
   if (checkEmail) {
     return h

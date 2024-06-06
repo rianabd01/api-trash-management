@@ -7,8 +7,20 @@ dotenv.config();
 
 const loginHandler = async (request, h) => {
   const { username, password } = request.payload;
+  const authHeader = request.headers.authorization;
 
-  // Columns Validation
+  // Check existing token
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    try {
+      jwt.verify(token, process.env.JWT_KEY);
+      return h.response({ token }).code(200);
+    } catch (error) {
+      // Proceed as usual login process
+    }
+  }
+
+  // Check Columns Validation
   if (!username || !password) {
     return h
       .response({
@@ -17,7 +29,8 @@ const loginHandler = async (request, h) => {
       })
       .code(400);
   }
-  // Find user in database
+
+  // Find user on database
   const user = await Users.findOne({ where: { username } });
   if (!user) {
     return h
@@ -28,18 +41,18 @@ const loginHandler = async (request, h) => {
       .code(401);
   }
 
-  // Password verification
+  // Check is password match
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return h
       .response({
         status: 'fail',
-        message: 'invalid password',
+        message: 'password doesnt match',
       })
       .code(401);
   }
 
-  // Generate JWT
+  // Generate Token
   const token = jwt.sign(
     {
       id: user.user_id,
@@ -49,14 +62,7 @@ const loginHandler = async (request, h) => {
     { expiresIn: '1h' },
   );
 
-  return h
-    .response({
-      status: 'success',
-      message: "you're logged in",
-      token,
-      user_id: user.user_id,
-    })
-    .code(200);
+  return h.response({ token }).code(200);
 };
 
 module.exports = loginHandler;

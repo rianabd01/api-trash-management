@@ -4,6 +4,8 @@ const getTrashList = require('../handler/getTrashList');
 const postTrashHandler = require('../handler/postTrash');
 const loginHandler = require('../handler/login');
 const registerHandler = require('../handler/register');
+const editTashById = require('../handler/putTrash');
+const postTrashProofHandler = require('../handler/postTrashProof');
 
 const routes = [
   {
@@ -46,6 +48,25 @@ const routes = [
     method: 'POST',
     path: '/register',
     handler: registerHandler,
+  },
+  {
+    method: 'POST',
+    path: '/trash/detail/{id}',
+    options: {
+      payload: {
+        output: 'stream',
+        parse: true,
+        allow: 'multipart/form-data',
+        multipart: true,
+      },
+      handler: postTrashProofHandler,
+    },
+  },
+  // Admin function
+  {
+    method: 'PUT',
+    path: '/trash/edit/{id}',
+    handler: editTashById,
   },
 ];
 

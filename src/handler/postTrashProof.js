@@ -4,30 +4,21 @@ const Path = require('path');
 const randomstring = require('randomstring');
 const sharp = require('sharp');
 const sequelize = require('../sequelize');
-const { Trash, Pictures } = require('../associations/index');
+const { ProofPictures, TrashProof } = require('../associations/index');
 
-const postTrashHandler = async (request, h) => {
-  const {
-    title,
-    description,
-    city_id,
-    address,
-    location_url,
-    gambar1,
-    gambar2,
-    gambar3,
-  } = request.payload;
-  console.log(gambar1);
+const postTrashProofHandler = async (request, h) => {
+  // eslint-disable-next-line object-curly-newline
+  const { user_id, user_message, gambar1, gambar2, gambar3 } = request.payload;
+  const { id } = request.params;
+
   let transaction;
   try {
     transaction = await sequelize.transaction();
-    const trash = await Trash.create(
+    const trashProof = await TrashProof.create(
       {
-        title,
-        description,
-        city_id,
-        address,
-        location_url,
+        trash_id: id,
+        user_id,
+        user_message,
       },
       { transaction },
     );
@@ -39,9 +30,11 @@ const postTrashHandler = async (request, h) => {
         '..',
         '..',
         'uploads',
-        String(trashId),
+        String(id),
+        'proof',
       );
 
+      // Compress Image
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
       }
@@ -75,18 +68,19 @@ const postTrashHandler = async (request, h) => {
       } else {
         fs.writeFileSync(imagePath, fileBuffer);
       }
+      // END COMPRESS
 
-      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${trashId}/${imageName}`;
-      await Pictures.create(
-        { image_path: insertImagePath, trash_id: trashId },
+      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${id}/proof/${imageName}`;
+      await ProofPictures.create(
+        { image_path: insertImagePath, trash_proof_id: trashId },
         { transaction },
       );
     };
 
-    // Save image usage
-    await saveImage(gambar1, trash.trash_id, 1);
-    await saveImage(gambar2, trash.trash_id, 2);
-    await saveImage(gambar3, trash.trash_id, 3);
+    // Using save image
+    await saveImage(gambar1, trashProof.trash_proof_id, 1);
+    await saveImage(gambar2, trashProof.trash_proof_id, 2);
+    await saveImage(gambar3, trashProof.trash_proof_id, 3);
 
     await transaction.commit();
 
@@ -95,7 +89,7 @@ const postTrashHandler = async (request, h) => {
         status: 'success',
         message: 'upload success!',
         data: {
-          trash_id: trash.trash_id,
+          trash_proof_id: trashProof.trash_proof_id,
         },
       })
       .code(201);
@@ -111,4 +105,4 @@ const postTrashHandler = async (request, h) => {
   }
 };
 
-module.exports = postTrashHandler;
+module.exports = postTrashProofHandler;
