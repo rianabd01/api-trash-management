@@ -3,8 +3,9 @@ const fs = require('fs');
 const Path = require('path');
 const randomstring = require('randomstring');
 const sharp = require('sharp');
-const sequelize = require('../sequelize');
-const { Trash, Pictures } = require('../associations/index');
+const sequelize = require('../../sequelize');
+const { Trash, Pictures } = require('../../associations/index');
+const getUserIdFromToken = require('../UserJWTVerification');
 
 const postTrashHandler = async (request, h) => {
   const {
@@ -17,12 +18,16 @@ const postTrashHandler = async (request, h) => {
     gambar2,
     gambar3,
   } = request.payload;
-  console.log(gambar1);
+
+  // Check is user login
+  const userId = await getUserIdFromToken(request);
+
   let transaction;
   try {
     transaction = await sequelize.transaction();
     const trash = await Trash.create(
       {
+        ...(userId && { user_uploader_id: userId }),
         title,
         description,
         city_id,
@@ -38,8 +43,9 @@ const postTrashHandler = async (request, h) => {
         __dirname,
         '..',
         '..',
+        '..',
         'uploads',
-        String(trashId),
+        'trash',
       );
 
       if (!fs.existsSync(dirPath)) {
@@ -47,10 +53,10 @@ const postTrashHandler = async (request, h) => {
       }
 
       const extension = image.hapi.filename.split('.').pop();
-      const imageName = `${randomstring.generate({
+      const imageName = `${Date.now()}_${randomstring.generate({
         length: 12,
         charset: 'alphabetic',
-      })}${index}.${extension}`;
+      })}${trashId}_${index}.${extension}`;
 
       const imagePath = Path.resolve(dirPath, imageName);
 
@@ -76,7 +82,7 @@ const postTrashHandler = async (request, h) => {
         fs.writeFileSync(imagePath, fileBuffer);
       }
 
-      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${trashId}/${imageName}`;
+      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/${imageName}`;
       await Pictures.create(
         { image_path: insertImagePath, trash_id: trashId },
         { transaction },

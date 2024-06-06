@@ -1,11 +1,12 @@
 const Joi = require('joi');
-const getTrashDetail = require('../handler/getTrashDetail');
-const getTrashList = require('../handler/getTrashList');
-const postTrashHandler = require('../handler/postTrash');
-const loginHandler = require('../handler/login');
-const registerHandler = require('../handler/register');
-const editTashById = require('../handler/putTrash');
-const postTrashProofHandler = require('../handler/postTrashProof');
+const getTrashDetail = require('../handler/trash/GetTrashDetail');
+const getTrashList = require('../handler/trash/GetTrashList');
+const postTrashHandler = require('../handler/trash/PostTrash');
+const loginHandler = require('../handler/auth/LoginHandler');
+const registerHandler = require('../handler/auth/RegisterHandler');
+const editTrashById = require('../handler/trash/PutTrash');
+const postTrashProofHandler = require('../handler/trash/PostTrashProof');
+const editTrashProofById = require('../handler/trash/PutTrashProof');
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/trash/detail/{id}',
+    path: '/trash/{id}',
     handler: getTrashDetail,
   },
   {
@@ -49,9 +50,11 @@ const routes = [
     path: '/register',
     handler: registerHandler,
   },
+
+  // Proof cleaned trash
   {
     method: 'POST',
-    path: '/trash/detail/{id}',
+    path: '/trash/proof/{id}',
     options: {
       payload: {
         output: 'stream',
@@ -65,8 +68,13 @@ const routes = [
   // Admin function
   {
     method: 'PUT',
-    path: '/trash/edit/{id}',
-    handler: editTashById,
+    path: '/trash/verification/{id}',
+    handler: editTrashById,
+  },
+  {
+    method: 'PUT',
+    path: '/trash/proof/verification/{id}',
+    handler: editTrashProofById,
   },
 ];
 

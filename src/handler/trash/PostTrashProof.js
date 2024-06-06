@@ -3,21 +3,24 @@ const fs = require('fs');
 const Path = require('path');
 const randomstring = require('randomstring');
 const sharp = require('sharp');
-const sequelize = require('../sequelize');
-const { ProofPictures, TrashProof } = require('../associations/index');
+const sequelize = require('../../sequelize');
+const { ProofPictures, TrashProof } = require('../../associations/index');
+const getUserIdFromToken = require('../UserJWTVerification');
 
 const postTrashProofHandler = async (request, h) => {
   // eslint-disable-next-line object-curly-newline
-  const { user_id, user_message, gambar1, gambar2, gambar3 } = request.payload;
+  const { user_message, gambar1, gambar2, gambar3 } = request.payload;
   const { id } = request.params;
 
+  // Check is user login
+  const userId = await getUserIdFromToken(request);
   let transaction;
   try {
     transaction = await sequelize.transaction();
     const trashProof = await TrashProof.create(
       {
+        ...(userId && { user_id: userId }),
         trash_id: id,
-        user_id,
         user_message,
       },
       { transaction },
@@ -29,8 +32,8 @@ const postTrashProofHandler = async (request, h) => {
         __dirname,
         '..',
         '..',
+        '..',
         'uploads',
-        String(id),
         'proof',
       );
 
@@ -40,10 +43,10 @@ const postTrashProofHandler = async (request, h) => {
       }
 
       const extension = image.hapi.filename.split('.').pop();
-      const imageName = `${randomstring.generate({
+      const imageName = `${Date.now()}_${randomstring.generate({
         length: 12,
         charset: 'alphabetic',
-      })}${index}.${extension}`;
+      })}${id}_${index}.${extension}`;
 
       const imagePath = Path.resolve(dirPath, imageName);
 
@@ -70,7 +73,7 @@ const postTrashProofHandler = async (request, h) => {
       }
       // END COMPRESS
 
-      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/${id}/proof/${imageName}`;
+      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/${imageName}`;
       await ProofPictures.create(
         { image_path: insertImagePath, trash_proof_id: trashId },
         { transaction },
@@ -87,9 +90,10 @@ const postTrashProofHandler = async (request, h) => {
     return h
       .response({
         status: 'success',
-        message: 'upload success!',
+        message: 'upload proof success!',
         data: {
           trash_proof_id: trashProof.trash_proof_id,
+          trash_id: trashProof.trash_id,
         },
       })
       .code(201);

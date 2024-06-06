@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
-const { Trash, Pictures, Cities } = require('../associations/index');
-const sequelize = require('../sequelize');
+const { Trash, Pictures, Cities } = require('../../associations/index');
+const sequelize = require('../../sequelize');
 
 const getTrashList = async (request, h) => {
   const { location, page = 1 } = request.query;

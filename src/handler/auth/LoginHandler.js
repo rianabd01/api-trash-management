@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const { Users } = require('../associations/index');
+const { Users } = require('../../associations/index');
 
 dotenv.config();
 

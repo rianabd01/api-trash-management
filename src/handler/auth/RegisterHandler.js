@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const validator = require('validator');
-const { Users } = require('../associations/index');
-const sequelize = require('../sequelize');
+const { Users } = require('../../associations/index');
+const sequelize = require('../../sequelize');
 
 const registerHandler = async (request, h) => {
   // eslint-disable-next-line object-curly-newline, operator-linebreak

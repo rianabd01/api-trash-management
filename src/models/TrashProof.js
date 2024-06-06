@@ -13,6 +13,8 @@ const TrashProof = sequelize.define(
     trash_id: { type: DataTypes.INTEGER, allowNull: false },
     user_id: { type: DataTypes.INTEGER, allowNull: true },
     user_message: { type: DataTypes.TEXT, allowNull: false },
+    feedback: { type: DataTypes.TEXT, allowNull: true },
+    is_verified: { type: DataTypes.INTEGER, allowNull: true },
   },
   {
     tableName: 'trash_proof',

@@ -5,7 +5,7 @@ const {
   Cities,
   Users,
   TrashProof,
-} = require('../associations/index');
+} = require('../../associations/index');
 
 const getTrashDetail = async (request, h) => {
   const { id } = request.params;
