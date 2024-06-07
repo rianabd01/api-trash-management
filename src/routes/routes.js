@@ -24,14 +24,31 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/trash/{id}',
-    handler: getTrashDetail,
-  },
-  {
-    method: 'GET',
     path: '/trash',
     handler: getTrashList,
   },
+  {
+    method: 'GET',
+    path: '/trash/{id}',
+    handler: getTrashDetail,
+  },
+
+  // Proof cleaned trash
+  {
+    method: 'POST',
+    path: '/trash/proof/{id}',
+    options: {
+      payload: {
+        output: 'stream',
+        parse: true,
+        allow: 'multipart/form-data',
+        multipart: true,
+      },
+      handler: postTrashProofHandler,
+    },
+  },
+
+  // User auth
   {
     method: 'POST',
     path: '/login',
@@ -51,21 +68,7 @@ const routes = [
     handler: registerHandler,
   },
 
-  // Proof cleaned trash
-  {
-    method: 'POST',
-    path: '/trash/proof/{id}',
-    options: {
-      payload: {
-        output: 'stream',
-        parse: true,
-        allow: 'multipart/form-data',
-        multipart: true,
-      },
-      handler: postTrashProofHandler,
-    },
-  },
-  // Admin function
+  // Admin handler
   {
     method: 'PUT',
     path: '/trash/verification/{id}',
