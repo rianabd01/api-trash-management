@@ -62,7 +62,7 @@ const loginHandler = async (request, h) => {
     { expiresIn: '30d' },
   );
 
-  return h.response({ token }).code(200);
+  return h.response({ token, full_name: user.full_name }).code(200);
 };
 
 module.exports = loginHandler;

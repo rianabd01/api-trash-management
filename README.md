@@ -7,6 +7,13 @@ This API provides endpoints for managing trash reports, including creating, list
 Node.js Version: v20.13.1
 Database Import: root folder ./db_sure.sql
 
+## Usage Steps
+
+- Make sure you have a correct node version
+- Import the database ./db_sure.sql into your MySql Server
+- Create .env like .env.examples (Fill all fields)
+- And then run the server with Dev: npm run start-dev or npm start
+
 **ENV**
 
 ```json
@@ -119,11 +126,14 @@ gambar2: (File) Image file of the trash.
 gambar3: (File) Image file of the trash.
 ```
 
+**notes:**
+If user authorization is valid, the post trash have user_id data who upload. if invalid, set default anonymous uploader
+
 ```json
 {
   "title": "Sampah di Jalan",
   "description": "Tumpukan sampah di trotoar",
-  "city_id": 1,
+  "city_id": 1, // ForeignKey city_id available from 1 - 48 in database
   "address": "Jl. Sudirman",
   "location_url": "https://maps.google.com?q=location",
   "gambar1": "file_image_1.jpg",
@@ -173,6 +183,9 @@ gambar3: (File) Image file of cleaned trash.
   "gambar3": "file_image_3.png"
 }
 ```
+
+**notes:**
+If user authorization is valid, the post trash proof have user_id data who upload. if invalid, set default anonymous uploader
 
 **Response JSON:**
 

@@ -4,9 +4,7 @@ const getTrashList = require('../handler/trash/GetTrashList');
 const postTrashHandler = require('../handler/trash/PostTrash');
 const loginHandler = require('../handler/auth/LoginHandler');
 const registerHandler = require('../handler/auth/RegisterHandler');
-const editTrashById = require('../handler/trash/PutTrash');
 const postTrashProofHandler = require('../handler/trash/PostTrashProof');
-const editTrashProofById = require('../handler/trash/PutTrashProof');
 
 const routes = [
   {
@@ -66,18 +64,6 @@ const routes = [
     method: 'POST',
     path: '/register',
     handler: registerHandler,
-  },
-
-  // Admin handler
-  {
-    method: 'PUT',
-    path: '/trash/verification/{id}',
-    handler: editTrashById,
-  },
-  {
-    method: 'PUT',
-    path: '/trash/proof/verification/{id}',
-    handler: editTrashProofById,
   },
 ];
 
