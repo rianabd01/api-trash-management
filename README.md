@@ -259,8 +259,8 @@ password: (String) Must valid.
 
 ```json
 {
-  "username": "user",
-  "password": "user"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsInVzZXJuYW1lIjoicmlhbmFiZDAxIiwiaWF0IjoxNzE3NzMwOTM0LCJleHAiOjE3MjAzMjI5MzR9.a3DAMqjssEoJGksFo05ahECLGf_c4QqRstPqT9asOxY",
+  "full_name": "User full_name"
 }
 ```
 
