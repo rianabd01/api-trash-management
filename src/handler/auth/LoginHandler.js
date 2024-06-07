@@ -59,7 +59,7 @@ const loginHandler = async (request, h) => {
       username: user.username,
     },
     process.env.JWT_KEY,
-    { expiresIn: '1h' },
+    { expiresIn: '30d' },
   );
 
   return h.response({ token }).code(200);
