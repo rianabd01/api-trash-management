@@ -2,6 +2,10 @@
 
 This API provides endpoints for managing trash reports, including creating, listing, and viewing details of trash reports. Below is a detailed guide on how to use the API.
 
+## Requirements
+
+Node.js Version: v20.13.1
+
 ## Base URL
 
 http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
@@ -41,13 +45,12 @@ GET /trash?location={location}&page={page}
 }
 ```
 
-### 2. GET /trash/detail/
+### 2. GET DETAIL /trash
 
 Retrieve detailed information about a specific trash report.
 
-Request:
-
-GET /trash/detail/:id
+**Request:**
+GET /trash/:id
 : The ID of the trash report.
 
 **Response JSON:**
@@ -66,10 +69,12 @@ GET /trash/detail/:id
     "uploader_id": 3,
     "uploader": "Seseorang",
     "pictures": [
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/31/RENAmLfJrQZP1.png",
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/31/ETeILNxFWfkM2.jpg",
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/31/mPDarbeCikyi3.png"
-    ]
+      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993077_LaTjfCiTisGo24_1.jpg",
+      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993094_GLMMwClAMirH24_2.png",
+      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993105_rTbUGGIONoWL24_3.png"
+    ],
+    "is_proofed": 1, // If anyone sending proof, it will be 1 (true)
+    "is_finished": 1 // If proof sended by anyone and verified by admin, it will be 1 (true)
   }
 }
 ```
@@ -78,8 +83,17 @@ GET /trash/detail/:id
 
 Create a new trash report. NULL values are disallowed for all fields.
 
-Request:
-POST /trash
+**Request:**
+Headers:
+
+```json
+Content-Type: multipart/form-data,
+Authorization: `Bearer ${token}`,
+```
+
+Body:
+
+```json
 title: (String) Title of the trash report.
 description: (String) Description of the trash problem.
 city_id: (Integer) ID of the city where the trash is located.
@@ -88,6 +102,7 @@ location_url: (String) URL to the location on a map.
 gambar1: (File) Image file of the trash.
 gambar2: (File) Image file of the trash.
 gambar3: (File) Image file of the trash.
+```
 
 Example Request Body:
 
@@ -98,9 +113,9 @@ Example Request Body:
   "city_id": 1,
   "address": "Jl. Sudirman",
   "location_url": "https://maps.google.com?q=location",
-  "gambar1": "file1.jpg",
-  "gambar2": "file2.jpeg",
-  "gambar3": "file3.png"
+  "gambar1": "file_image_1.jpg",
+  "gambar2": "file_image_2.jpeg",
+  "gambar3": "file_image_3.png"
 }
 ```
 
@@ -116,6 +131,51 @@ Example Request Body:
 }
 ```
 
+### 4. POST TRASH PROOF /trash/proof/:id
+
+Create a proof if trash is cleaned. NULL values are disallowed for all fields.
+
+**Request:**
+Headers:
+
+```json
+Content-Type: multipart/form-data,
+Authorization: `Bearer ${token}`,
+```
+
+Body:
+
+```json
+user_message: (String) Message from user.
+gambar1: (File) Image file of cleaned trash.
+gambar2: (File) Image file of cleaned trash.
+gambar3: (File) Image file of cleaned trash.
+```
+
+Example Request Body:
+
+```json
+{
+  "user_message": "Sudah saya bersihkan",
+  "gambar1": "file_image_1.jpg",
+  "gambar2": "file_image_2.jpeg",
+  "gambar3": "file_image_3.png"
+}
+```
+
+**Response JSON:**
+
+```json
+{
+  "status": "success",
+  "message": "upload proof success!",
+  "data": {
+    "trash_proof_id": 16,
+    "trash_id": "24"
+  }
+}
+```
+
 # Usage Examples
 
 ### Example 1: Get a list of trash reports in Jakarta
@@ -124,14 +184,15 @@ GET /trash?location=Jakarta&page=1
 
 ### Example 2: Get details of a specific trash report with ID 1
 
-GET /trash/detail/1
+GET /trash/1
 
 ### Example 3: Post a new trash report
 
 POST /trash
 
 ```json
-Content-Type: multipart/form-data
+Content-Type: multipart/form-data,
+Authorization: `Bearer ${token}`, // Included token JWT in headers Authorization
 
 {
     "title": "Sampah di Kali",
@@ -139,6 +200,22 @@ Content-Type: multipart/form-data
     "city_id": 2,
     "address": "Jl. Kali Pasir",
     "location_url": "https://maps.google.com?q=location",
+    "gambar1": "sampah1.jpg",
+    "gambar2": "sampah2.jpg",
+    "gambar3": "sampah3.jpg"
+}
+```
+
+### Example 4: Post a cleaned proof
+
+POST /trash/proof/:id
+
+```json
+Content-Type: multipart/form-data,
+Authorization: `Bearer ${token}`, // Included token JWT in headers Authorization
+
+{
+    "user_message": "sudah dibersihkan",
     "gambar1": "sampah1.jpg",
     "gambar2": "sampah2.jpg",
     "gambar3": "sampah3.jpg"
