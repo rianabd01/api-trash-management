@@ -5,6 +5,18 @@ This API provides endpoints for managing trash reports, including creating, list
 ## Requirements
 
 Node.js Version: v20.13.1
+Database Import: root folder ./db_sure.sql
+
+**ENV**
+
+```json
+MYSQL_HOST='your_mysql_host'
+MYSQL_USER='your_mysql_username'
+MYSQL_PASSWORD='your_mysql_password'
+MYSQL_DB='your_mysql_database'
+JWT_KEY='your_jwt_key'
+SERVER_HOST_URL='your_server_host'
+```
 
 ## Base URL
 
