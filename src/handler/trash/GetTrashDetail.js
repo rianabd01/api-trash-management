@@ -1,4 +1,5 @@
 // eslint-disable-next-line object-curly-newline
+const dotenv = require('dotenv');
 const {
   Trash,
   Pictures,
@@ -7,24 +8,17 @@ const {
   TrashProof,
 } = require('../../associations/index');
 
+dotenv.config();
 const getTrashDetail = async (request, h) => {
   const { id } = request.params;
 
   try {
     // Check if anyone has send proof
-    const proofExists = await TrashProof.findOne({
+    const trashProofExists = await TrashProof.findOne({
       where: {
         trash_id: id,
       },
     });
-    if (proofExists) {
-      return h
-        .response({
-          status: 'fail',
-          message: 'Trash is pending',
-        })
-        .code(403);
-    }
 
     // Find trash by id
     const trash = await Trash.findByPk(id, {
@@ -57,6 +51,8 @@ const getTrashDetail = async (request, h) => {
         .code(404);
     }
 
+    // Result if trash found
+    const serverHostURL = process.env.SERVER_HOST_URL;
     const result = {
       id: trash.trash_id,
       title: trash.title,
@@ -64,11 +60,13 @@ const getTrashDetail = async (request, h) => {
       city: trash.cities.name,
       address: trash.address,
       location_url: trash.location_url,
-      uploader_id: trash.users.user_id === 3 ? 'Publik' : trash.users.user_id,
+      uploader_id: trash.users.user_id === 3 ? 3 : trash.users.user_id,
       uploader: trash.users.full_name,
-      pictures: trash.pictures.map((picture) => picture.image_path),
-      is_verified: trash.is_verified,
-      is_deleted: trash.is_deleted,
+      pictures: trash.pictures.map(
+        (picture) => serverHostURL + picture.image_path,
+      ),
+      is_proofed: trashProofExists ? 1 : 0,
+      is_finished: trashProofExists ? trashProofExists.is_verified : 0,
     };
 
     return h
@@ -83,7 +81,7 @@ const getTrashDetail = async (request, h) => {
       .response({
         status: 'fail',
         message: 'something wrong',
-        error,
+        error: error.message,
       })
       .code(500);
   }

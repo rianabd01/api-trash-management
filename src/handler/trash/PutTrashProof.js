@@ -35,33 +35,11 @@ const editTrashProofById = async (request, h) => {
     return h
       .response({
         status: 'fail',
-        message: 'something wrong fm',
+        message: 'something wrong',
         error: error.message,
       })
       .code(500);
   }
-  // try {
-  //   trashItem.title = title;
-  //   trashItem.description = description;
-  //   trashItem.is_verified = is_verified;
-  //   await trashItem.save();
-
-  //   return h
-  //     .response({
-  //       status: 'success',
-  //       message: 'edit data success',
-  //       data: trashItem,
-  //     })
-  //     .code(200);
-  // } catch (error) {
-  //   return h
-  //     .response({
-  //       status: 'fail',
-  //       message: 'something wrong',
-  //       error: error.message,
-  //     })
-  //     .code(404);
-  // }
 };
 
 module.exports = editTrashProofById;

@@ -19,7 +19,7 @@ const postTrashHandler = async (request, h) => {
     gambar3,
   } = request.payload;
 
-  // Check is user login
+  // Check is user logged in
   const userId = await getUserIdFromToken(request);
 
   let transaction;
@@ -82,7 +82,7 @@ const postTrashHandler = async (request, h) => {
         fs.writeFileSync(imagePath, fileBuffer);
       }
 
-      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/${imageName}`;
+      const insertImagePath = `uploads/trash/${imageName}`;
       await Pictures.create(
         { image_path: insertImagePath, trash_id: trashId },
         { transaction },
@@ -111,7 +111,7 @@ const postTrashHandler = async (request, h) => {
       .response({
         status: 'fail',
         message: 'upload failed!',
-        error,
+        error: error.message,
       })
       .code(500);
   }

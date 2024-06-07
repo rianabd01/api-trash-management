@@ -14,8 +14,25 @@ const postTrashProofHandler = async (request, h) => {
 
   // Check is user login
   const userId = await getUserIdFromToken(request);
+
   let transaction;
   try {
+    const trashProofExists = await TrashProof.findOne({
+      where: {
+        trash_id: id,
+      },
+    });
+
+    // Check is trash have a proof
+    if (trashProofExists) {
+      return h
+        .response({
+          status: 'fail',
+          message: 'trash approve is pending',
+        })
+        .code(403);
+    }
+
     transaction = await sequelize.transaction();
     const trashProof = await TrashProof.create(
       {
@@ -73,7 +90,7 @@ const postTrashProofHandler = async (request, h) => {
       }
       // END COMPRESS
 
-      const insertImagePath = `http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/${imageName}`;
+      const insertImagePath = `uploads/proof/${imageName}`;
       await ProofPictures.create(
         { image_path: insertImagePath, trash_proof_id: trashId },
         { transaction },
@@ -103,7 +120,7 @@ const postTrashProofHandler = async (request, h) => {
       .response({
         status: 'fail',
         message: 'upload failed!',
-        error,
+        error: error.message,
       })
       .code(500);
   }

@@ -1,7 +1,9 @@
 const { Op } = require('sequelize');
+const dotenv = require('dotenv');
 const { Trash, Pictures, Cities } = require('../../associations/index');
 const sequelize = require('../../sequelize');
 
+dotenv.config();
 const getTrashList = async (request, h) => {
   const { location, page = 1 } = request.query;
 
@@ -47,13 +49,17 @@ const getTrashList = async (request, h) => {
         .code(404);
     }
 
-    // Result if found
+    // Result if trash found
+    const serverHostURL = process.env.SERVER_HOST_URL;
     const result = trashList.map((trash) => ({
       trash_id: trash.trash_id,
       title: trash.title,
       description: trash.description,
       city: trash.cities.name,
-      pictures: trash.pictures.length > 0 ? trash.pictures[0].image_path : null,
+      pictures:
+        trash.pictures.length > 0
+          ? serverHostURL + trash.pictures[0].image_path
+          : null,
     }));
 
     return h
@@ -68,7 +74,7 @@ const getTrashList = async (request, h) => {
       .response({
         status: 'fail',
         message: 'something wrong',
-        error,
+        error: error.message,
       })
       .code(500);
   }
