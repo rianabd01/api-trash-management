@@ -50,7 +50,11 @@ const getTrashList = async (request, h) => {
     }
 
     // Result if trash found
-    const serverHostURL = process.env.SERVER_HOST_URL;
+    let serverHostURL = `${process.env.SERVER_HOST}`;
+    if (process.env.SERVER_HOST === 'localhost') {
+      serverHostURL += `:${process.env.SERVER_PORT}`;
+    }
+
     const result = trashList.map((trash) => ({
       trash_id: trash.trash_id,
       title: trash.title,

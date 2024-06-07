@@ -10,12 +10,13 @@ Database Import: root folder ./db_sure.sql
 **ENV**
 
 ```json
-MYSQL_HOST='your_mysql_host'
-MYSQL_USER='your_mysql_username'
-MYSQL_PASSWORD='your_mysql_password'
-MYSQL_DB='your_mysql_database'
+SERVER_PORT= 9000
+SERVER_HOST='localhost'
+MYSQL_HOST='localhost'
+MYSQL_USER='root'
+MYSQL_PASSWORD='pass'
+MYSQL_DB='sure_application'
 JWT_KEY='your_jwt_key'
-SERVER_HOST_URL='your_server_host'
 ```
 
 ## Base URL
@@ -42,16 +43,18 @@ GET /trash?location={location}&page={page}
   "message": "success GET trash list",
   "result": [
     {
-      "trash_id": 1,
-      "title": "Sampah Jalan",
-      "description": "Menyumbat saluran pembuangan air",
-      "city": "Jakarta Pusat"
+      "trash_id": 22,
+      "title": "Sampah kali",
+      "description": "Banyak sampah plastik",
+      "city": "Kota Jakarta Timur",
+      "pictures": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717715898683_goDRWdIqadOU22_1.jpg"
     },
     {
-      "trash_id": 2,
-      "title": "Sampah Kali",
-      "description": "Menyumbat irigasi",
-      "city": "Kota Bogor"
+      "trash_id": 23,
+      "title": "Sampah pinggir jalan",
+      "description": "Banyak sampah daun",
+      "city": "Kota Jakarta Pusat",
+      "pictures": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716867932_ZgqWSBBozhZe23_1.jpg"
     }
   ]
 }
@@ -116,8 +119,6 @@ gambar2: (File) Image file of the trash.
 gambar3: (File) Image file of the trash.
 ```
 
-Example Request Body:
-
 ```json
 {
   "title": "Sampah di Jalan",
@@ -164,8 +165,6 @@ gambar2: (File) Image file of cleaned trash.
 gambar3: (File) Image file of cleaned trash.
 ```
 
-Example Request Body:
-
 ```json
 {
   "user_message": "Sudah saya bersihkan",
@@ -188,6 +187,70 @@ Example Request Body:
 }
 ```
 
+### 5. POST USER REGISTER /register
+
+Retrieve detailed information about a specific trash report.
+
+**Request:**
+POST /register
+
+Body:
+
+```json
+full_name: (String) User full name.
+date_of_birth: (Date) User date of birth.
+email: (Email) Must unique and valid.
+username: (String) Must unique.
+password: (String) up to you.
+```
+
+```json
+{
+  "full_name": "User full name",
+  "date_of_birth": "2002-08-05",
+  "email": "user@email.com",
+  "username": "user",
+  "password": "user"
+}
+```
+
+**Response JSON:**
+
+```json
+{
+  "status": "success",
+  "message": "register success!",
+  "data": {
+    "user_id": 19,
+    "full_name": "User fullname",
+    "username": "user"
+  }
+}
+```
+
+### 5. POST USER LOGIN /login
+
+Login
+
+**Request:**
+POST /login
+
+Body:
+
+```json
+username: (String) Must valid.
+password: (String) Must valid.
+```
+
+**Response JSON:**
+
+```json
+{
+  "username": "user",
+  "password": "user"
+}
+```
+
 # Usage Examples
 
 ### Example 1: Get a list of trash reports in Jakarta
@@ -197,42 +260,6 @@ GET /trash?location=Jakarta&page=1
 ### Example 2: Get details of a specific trash report with ID 1
 
 GET /trash/1
-
-### Example 3: Post a new trash report
-
-POST /trash
-
-```json
-Content-Type: multipart/form-data,
-Authorization: `Bearer ${token}`, // Included token JWT in headers Authorization
-
-{
-    "title": "Sampah di Kali",
-    "description": "Sampah menumpuk di kali",
-    "city_id": 2,
-    "address": "Jl. Kali Pasir",
-    "location_url": "https://maps.google.com?q=location",
-    "gambar1": "sampah1.jpg",
-    "gambar2": "sampah2.jpg",
-    "gambar3": "sampah3.jpg"
-}
-```
-
-### Example 4: Post a cleaned proof
-
-POST /trash/proof/:id
-
-```json
-Content-Type: multipart/form-data,
-Authorization: `Bearer ${token}`, // Included token JWT in headers Authorization
-
-{
-    "user_message": "sudah dibersihkan",
-    "gambar1": "sampah1.jpg",
-    "gambar2": "sampah2.jpg",
-    "gambar3": "sampah3.jpg"
-}
-```
 
 # Notes
 

@@ -82,7 +82,7 @@ const postTrashHandler = async (request, h) => {
         fs.writeFileSync(imagePath, fileBuffer);
       }
 
-      const insertImagePath = `uploads/trash/${imageName}`;
+      const insertImagePath = `/uploads/trash/${imageName}`;
       await Pictures.create(
         { image_path: insertImagePath, trash_id: trashId },
         { transaction },

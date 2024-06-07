@@ -90,7 +90,7 @@ const postTrashProofHandler = async (request, h) => {
       }
       // END COMPRESS
 
-      const insertImagePath = `uploads/proof/${imageName}`;
+      const insertImagePath = `/uploads/proof/${imageName}`;
       await ProofPictures.create(
         { image_path: insertImagePath, trash_proof_id: trashId },
         { transaction },

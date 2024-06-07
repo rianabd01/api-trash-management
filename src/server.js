@@ -5,7 +5,7 @@ const sequelize = require('./sequelize');
 
 const init = async () => {
   const server = Hapi.server({
-    port: 9000,
+    port: process.env.SERVER_PORT,
     host: process.env.MYSQL_HOST,
   });
   // const server = Hapi.server({

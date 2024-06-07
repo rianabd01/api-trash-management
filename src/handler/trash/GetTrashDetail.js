@@ -52,7 +52,11 @@ const getTrashDetail = async (request, h) => {
     }
 
     // Result if trash found
-    const serverHostURL = process.env.SERVER_HOST_URL;
+    let serverHostURL = `${process.env.SERVER_HOST}`;
+    if (process.env.SERVER_HOST === 'localhost') {
+      serverHostURL += `:${process.env.SERVER_PORT}`;
+    }
+
     const result = {
       id: trash.trash_id,
       title: trash.title,
@@ -63,7 +67,7 @@ const getTrashDetail = async (request, h) => {
       uploader_id: trash.users.user_id === 3 ? 3 : trash.users.user_id,
       uploader: trash.users.full_name,
       pictures: trash.pictures.map(
-        (picture) => serverHostURL + picture.image_path,
+        (picture) => `${serverHostURL}${picture.image_path}`,
       ),
       is_proofed: trashProofExists ? 1 : 0,
       is_finished: trashProofExists ? trashProofExists.is_verified : 0,
