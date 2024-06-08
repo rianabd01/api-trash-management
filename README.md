@@ -202,7 +202,7 @@ If user authorization is valid, the post trash proof have user_id data who uploa
 
 ### 5. POST USER REGISTER /register
 
-Retrieve detailed information about a specific trash report.
+Register new user
 
 **Request:**
 POST /register
@@ -232,16 +232,46 @@ password: (String) up to you.
 ```json
 {
   "status": "success",
-  "message": "register success!",
+  "message": "register success! Please check your email for OTP verification.",
   "data": {
-    "user_id": 19,
-    "full_name": "User fullname",
+    "user_id": 1,
+    "full_name": "User full name",
     "username": "user"
   }
 }
 ```
 
-### 5. POST USER LOGIN /login
+### 6. POST USER OTP VERIFY /verify-otp
+
+Verify otp before login
+
+**Request:**
+POST /verify-otp
+
+Body:
+
+```json
+email: (Email) Must unique and valid.
+otp: (INTEGER) Must valid from user email inbox.
+```
+
+```json
+{
+  "email": "useremail@email.com",
+  "otp": "123456"
+}
+```
+
+**Response JSON:**
+
+```json
+{
+  "status": "success",
+  "message": "OTP verified successfully"
+}
+```
+
+### 7. POST USER LOGIN /login
 
 Login
 
