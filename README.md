@@ -304,6 +304,10 @@ GET /trash?location=Jakarta&page=1
 
 GET /trash/1
 
+# POSTMAN TEST
+
+**_Import the POSTMAN Collections :_** ./Sure API Test.postman_collection.json
+
 # Notes
 
 - Ensure that the files (gambar1, gambar2, gambar3) are uploaded as multipart/form-data.
