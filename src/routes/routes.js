@@ -5,6 +5,7 @@ const postTrashHandler = require('../handler/trash/PostTrash');
 const loginHandler = require('../handler/auth/LoginHandler');
 const registerHandler = require('../handler/auth/RegisterHandler');
 const postTrashProofHandler = require('../handler/trash/PostTrashProof');
+const verifyOTPHandler = require('../handler/auth/VerifyOTPHandler');
 
 const routes = [
   {
@@ -64,6 +65,11 @@ const routes = [
     method: 'POST',
     path: '/register',
     handler: registerHandler,
+  },
+  {
+    method: 'POST',
+    path: '/verify-otp',
+    handler: verifyOTPHandler,
   },
 ];
 
