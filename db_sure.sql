@@ -43,6 +43,31 @@ INSERT INTO `cities` VALUES (1,'Kota Jakarta Timur',1),(2,'Kota Jakarta Selatan'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `otp_verifications`
+--
+
+DROP TABLE IF EXISTS `otp_verifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `otp_verifications` (
+  `otp_id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(45) NOT NULL,
+  `otp` varchar(45) DEFAULT NULL,
+  `expired_at` timestamp NOT NULL,
+  PRIMARY KEY (`otp_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `otp_verifications`
+--
+
+LOCK TABLES `otp_verifications` WRITE;
+/*!40000 ALTER TABLE `otp_verifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `otp_verifications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `provinces`
 --
 
@@ -208,10 +233,11 @@ CREATE TABLE `users` (
   `date_of_birth` date DEFAULT NULL,
   `level` int DEFAULT '0',
   `profile_picture` varchar(255) DEFAULT NULL,
+  `is_verified` tinyint DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +246,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Administrator','admin','admin','admin@gmail.com','0852435123',NULL,100,NULL,'2024-05-27 15:18:08','2024-06-04 17:31:54'),(2,'Ronaldo','user2','$2b$10$XIGC/TfLezsz2dk4akei8OFq5YZymxHgB2eKosQSNF1tVoNTfjaLa','email@email.com',NULL,'2002-05-04',0,NULL,'2024-06-05 02:46:58','2024-06-06 19:07:50'),(3,'Seseorang','stranger','stranger',NULL,NULL,NULL,0,NULL,'2024-05-27 15:33:06','2024-06-04 17:31:54'),(4,'User 1','user','user','user@gmail.com','0859896718654',NULL,0,NULL,'2024-05-27 15:19:11','2024-06-06 19:07:36'),(18,'Bang jay','jay','$2b$10$bJWzbgLkz5PwF3hZkyHkD./dWpxzqsVuPCUlxDV3aJwBpY9W5yfjG','bangajay@email.com',NULL,'2002-08-05',0,NULL,'2024-06-06 12:18:10','2024-06-06 12:18:10'),(19,'Bang jay','jayjay','$2b$10$Fe0vjIT8YytkfPfIxdUlyeku7ccYeLOSwKFlXHMr47aeYK..qTbyS','bangajayjay@email.com',NULL,'2002-08-05',0,NULL,'2024-06-07 02:50:11','2024-06-07 02:50:11'),(20,'Rian Abd','rianabd01','$2b$10$xZoW18GvrBeCQIh3ZefAZOKLXnoPVuSS0nRcunyLTRxd2Du.AzCVS','rianabd010203@gmail.com',NULL,'2002-08-05',0,NULL,'2024-06-07 03:26:52','2024-06-07 03:26:52');
+INSERT INTO `users` VALUES (1,'Administrator','admin','admin','admin@gmail.com','0852435123',NULL,100,NULL,1,'2024-05-27 15:18:08','2024-06-08 06:03:40'),(2,'Ronaldo','user2','$2b$10$XIGC/TfLezsz2dk4akei8OFq5YZymxHgB2eKosQSNF1tVoNTfjaLa','email@email.com',NULL,'2002-05-04',0,NULL,1,'2024-06-05 02:46:58','2024-06-08 06:03:40'),(3,'Seseorang','stranger','stranger',NULL,NULL,NULL,0,NULL,1,'2024-05-27 15:33:06','2024-06-08 06:03:40'),(4,'User 1','user','user','user@gmail.com','0859896718654',NULL,0,NULL,0,'2024-05-27 15:19:11','2024-06-06 19:07:36'),(18,'Bang jay','jay','$2b$10$bJWzbgLkz5PwF3hZkyHkD./dWpxzqsVuPCUlxDV3aJwBpY9W5yfjG','bangajay@email.com',NULL,'2002-08-05',0,NULL,1,'2024-06-06 12:18:10','2024-06-08 07:25:11'),(19,'Bang jay','jayjay','$2b$10$Fe0vjIT8YytkfPfIxdUlyeku7ccYeLOSwKFlXHMr47aeYK..qTbyS','bangajayjay@email.com',NULL,'2002-08-05',0,NULL,0,'2024-06-07 02:50:11','2024-06-07 02:50:11'),(20,'Rian Abd','rianabd01','$2b$10$xZoW18GvrBeCQIh3ZefAZOKLXnoPVuSS0nRcunyLTRxd2Du.AzCVS','rianabd010203@gmail.com',NULL,'2002-08-05',0,NULL,0,'2024-06-07 03:26:52','2024-06-07 03:26:52');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -233,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-07 10:37:01
+-- Dump completed on 2024-06-08  7:47:12
