@@ -1,4 +1,5 @@
 const Cities = require('../models/Cities');
+const OTP = require('../models/OTP');
 const Pictures = require('../models/Pictures');
 const Trash = require('../models/Trash');
 const TrashProof = require('../models/TrashProof');
@@ -21,6 +22,7 @@ TrashProof.hasMany(ProofPictures, {
   as: 'proof_pictures',
   foreignKey: 'trash_proof_id',
 });
+
 ProofPictures.belongsTo(TrashProof, { foreignKey: 'trash_proof_id' });
 
 module.exports = {
@@ -30,4 +32,5 @@ module.exports = {
   Users,
   TrashProof,
   ProofPictures,
+  OTP,
 };
