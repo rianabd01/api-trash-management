@@ -29,6 +29,10 @@ const Users = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    is_verified: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
 
   {
