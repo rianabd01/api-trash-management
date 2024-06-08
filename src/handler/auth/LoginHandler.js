@@ -31,7 +31,7 @@ const loginHandler = async (request, h) => {
   }
 
   // Find user on database
-  const user = await Users.findOne({ where: { username } });
+  const user = await Users.findOne({ where: { username, is_verified: 1 } });
   if (!user) {
     return h
       .response({
