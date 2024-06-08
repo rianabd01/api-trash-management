@@ -11,7 +11,7 @@ Database Import: root folder ./db_sure.sql
 
 - Make sure you have a correct node version
 - Import the database ./db_sure.sql into your MySql Server
-- Create .env like .env.examples (Fill all fields)
+- Create .env like .env.examples (Fill all fields and view notes)
 - And then run the server with Dev: npm run start-dev or npm start
 
 **ENV**
@@ -24,7 +24,11 @@ MYSQL_USER='root'
 MYSQL_PASSWORD='pass'
 MYSQL_DB='sure_application'
 JWT_KEY='your_jwt_key'
+EMAIL_SERVICE='email@gmail.com'
+SERVICE_EMAIL_PASSWORD='your_app_password'
 ```
+
+**notes:** Setting your APP Pasword in your Google Email
 
 ## Base URL
 
