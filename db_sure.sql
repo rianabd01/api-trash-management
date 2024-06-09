@@ -55,7 +55,7 @@ CREATE TABLE `otp_verifications` (
   `otp` varchar(45) DEFAULT NULL,
   `expired_at` timestamp NOT NULL,
   PRIMARY KEY (`otp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,6 +64,7 @@ CREATE TABLE `otp_verifications` (
 
 LOCK TABLES `otp_verifications` WRITE;
 /*!40000 ALTER TABLE `otp_verifications` DISABLE KEYS */;
+INSERT INTO `otp_verifications` VALUES (17,'suretrash@gmail.com','206811','2024-06-08 14:30:55');
 /*!40000 ALTER TABLE `otp_verifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +116,7 @@ CREATE TABLE `trash` (
   KEY `city_idx` (`city_id`),
   CONSTRAINT `city` FOREIGN KEY (`city_id`) REFERENCES `cities` (`city_id`),
   CONSTRAINT `trash_ibfk_1` FOREIGN KEY (`user_uploader_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +125,7 @@ CREATE TABLE `trash` (
 
 LOCK TABLES `trash` WRITE;
 /*!40000 ALTER TABLE `trash` DISABLE KEYS */;
-INSERT INTO `trash` VALUES (1,'Sampah di sungai','Sungainya penuh sampah, airnya sangat keruh. Plastik, botol, dan sisa makanan mengapung, mencemari air. Tercium bau tak sedap, dan mengganggu suasana. Pemandangan ini bikin saya prihatin, butuh perhatian dan aksi nyata agar kali kembali bersih.',1,'Jl Ahmad Dahlan','maps.google.com',20,1,0,'2024-06-07 03:32:16','2024-06-07 10:32:48');
+INSERT INTO `trash` VALUES (1,'Sampah di sungai','Sungainya penuh sampah, airnya sangat keruh. Plastik, botol, dan sisa makanan mengapung, mencemari air. Tercium bau tak sedap, dan mengganggu suasana. Pemandangan ini bikin saya prihatin, butuh perhatian dan aksi nyata agar kali kembali bersih.',1,'Jl Ahmad Dahlan','maps.google.com',20,1,0,'2024-06-07 03:32:16','2024-06-08 14:28:23'),(2,'Sampah di jalan','Sungainya penuh sampah, airnya sangat keruh. Plastik, botol, dan sisa makanan mengapung, mencemari air. Tercium bau tak sedap, dan mengganggu suasana. Pemandangan ini bikin saya prihatin, butuh perhatian dan aksi nyata agar kali kembali bersih.',1,'Jl Ahmad Dahlan','maps.google.com',20,1,0,'2024-06-03 03:32:16','2024-06-03 03:32:16'),(3,'Sampah di gang','Sungainya penuh sampah, airnya sangat keruh. Plastik, botol, dan sisa makanan mengapung, mencemari air. Tercium bau tak sedap, dan mengganggu suasana. Pemandangan ini bikin saya prihatin, butuh perhatian dan aksi nyata agar kali kembali bersih.',1,'Jl Ahmad Dahlan','maps.google.com',20,1,0,'2024-06-01 03:32:16','2024-06-01 03:32:16'),(4,'Sampah menyumbat got','Got di tengah perkotaan menyumbat saluran air, sangat berbau dan tidak enak dipandang',40,'Jl Sultan Agung','https://maps.app.goo.gl/FD5oPzubTZZv3nbf9',39,1,0,'2024-06-09 10:38:38','2024-06-09 11:02:02');
 /*!40000 ALTER TABLE `trash` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +143,7 @@ CREATE TABLE `trash_pictures` (
   PRIMARY KEY (`picture_id`),
   KEY `trash_id` (`trash_id`),
   CONSTRAINT `trash_pictures_ibfk_1` FOREIGN KEY (`trash_id`) REFERENCES `trash` (`trash_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +152,7 @@ CREATE TABLE `trash_pictures` (
 
 LOCK TABLES `trash_pictures` WRITE;
 /*!40000 ALTER TABLE `trash_pictures` DISABLE KEYS */;
-INSERT INTO `trash_pictures` VALUES (1,'/uploads/trash/1717731136247_UXhGFaYCSyki1_1.jpg',1),(2,'/uploads/trash/1717731136272_hxanyMRjejfk1_2.png',1),(3,'/uploads/trash/1717731136284_WmMWPhMoZiGi1_3.png',1);
+INSERT INTO `trash_pictures` VALUES (1,'/uploads/trash/1717731136247_UXhGFaYCSyki1_1.jpg',1),(2,'/uploads/trash/1717731136272_hxanyMRjejfk1_2.png',1),(3,'/uploads/trash/1717731136284_WmMWPhMoZiGi1_3.png',1),(4,'/uploads/trash/1717929519071_VJDMjcJvAQia4_1.jpg',4),(5,'/uploads/trash/1717929519177_BMDDyeijrqtQ4_2.png',4),(6,'/uploads/trash/1717929519193_vAJOmUUZSbbL4_3.png',4);
 /*!40000 ALTER TABLE `trash_pictures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +177,7 @@ CREATE TABLE `trash_proof` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `trash_proof_ibfk_1` FOREIGN KEY (`trash_id`) REFERENCES `trash` (`trash_id`),
   CONSTRAINT `trash_proof_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +186,7 @@ CREATE TABLE `trash_proof` (
 
 LOCK TABLES `trash_proof` WRITE;
 /*!40000 ALTER TABLE `trash_proof` DISABLE KEYS */;
-INSERT INTO `trash_proof` VALUES (2,1,3,'Sudah kami bersihkan bersama kawan-kawan komuniatas PeduliSampah. Kami harap kita semua lebih peduli untuk menjaga kebersihan. Jangan buang sampah sembarangan, mari kita rawat lingkungan bersama-sama. Jika kita semua berkontribusi, kali ini bisa tetap bersih dan indah.',NULL,0,'2024-06-07 03:35:34','2024-06-07 03:35:34');
+INSERT INTO `trash_proof` VALUES (1,2,3,'Sudah bersih',NULL,1,'2024-06-08 22:07:24','2024-06-08 15:39:13'),(2,1,3,'Sudah kami bersihkan bersama kawan-kawan komuniatas PeduliSampah. Kami harap kita semua lebih peduli untuk menjaga kebersihan. Jangan buang sampah sembarangan, mari kita rawat lingkungan bersama-sama. Jika kita semua berkontribusi, kali ini bisa tetap bersih dan indah.',NULL,0,'2024-06-07 03:35:34','2024-06-07 03:35:34'),(3,4,3,'Sudah kami bersihkan bersama kawan-kawan komuniatas PeduliSampah. Kami harap kita semua lebih peduli untuk menjaga kebersihan. Jangan buang sampah sembarangan, mari kita rawat lingkungan bersama-sama. Jika kita semua berkontribusi, kali ini bisa tetap bersih dan indah.',NULL,1,'2024-06-09 10:39:39','2024-06-09 11:03:06');
 /*!40000 ALTER TABLE `trash_proof` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +204,7 @@ CREATE TABLE `trash_proof_pictures` (
   PRIMARY KEY (`picture_id`),
   KEY `trash_proof_id` (`trash_proof_id`),
   CONSTRAINT `trash_proof_pictures_ibfk_1` FOREIGN KEY (`trash_proof_id`) REFERENCES `trash_proof` (`trash_proof_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +213,7 @@ CREATE TABLE `trash_proof_pictures` (
 
 LOCK TABLES `trash_proof_pictures` WRITE;
 /*!40000 ALTER TABLE `trash_proof_pictures` DISABLE KEYS */;
-INSERT INTO `trash_proof_pictures` VALUES (1,'/uploads/proof/1717731334858_AjnZBwLFuauG1_1.jpg',2),(2,'/uploads/proof/1717731334876_yFbjXiIKSyjA1_2.png',2),(3,'/uploads/proof/1717731334886_ikYbqPDzSipn1_3.png',2);
+INSERT INTO `trash_proof_pictures` VALUES (1,'/uploads/proof/1717731334858_AjnZBwLFuauG1_1.jpg',2),(2,'/uploads/proof/1717731334876_yFbjXiIKSyjA1_2.png',2),(3,'/uploads/proof/1717731334886_ikYbqPDzSipn1_3.png',2),(4,'/uploads/proof/1717929579979_aEWDNVQfQaEV4_1.jpg',3),(5,'/uploads/proof/1717929580135_BIxrpRCMshav4_2.png',3),(6,'/uploads/proof/1717929580147_yZMkAuBuvCah4_3.png',3);
 /*!40000 ALTER TABLE `trash_proof_pictures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +238,7 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +247,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Administrator','admin','admin','admin@gmail.com','0852435123',NULL,100,NULL,1,'2024-05-27 15:18:08','2024-06-08 06:03:40'),(2,'Ronaldo','user2','$2b$10$XIGC/TfLezsz2dk4akei8OFq5YZymxHgB2eKosQSNF1tVoNTfjaLa','email@email.com',NULL,'2002-05-04',0,NULL,1,'2024-06-05 02:46:58','2024-06-08 06:03:40'),(3,'Seseorang','stranger','stranger',NULL,NULL,NULL,0,NULL,1,'2024-05-27 15:33:06','2024-06-08 06:03:40'),(4,'User 1','user','user','user@gmail.com','0859896718654',NULL,0,NULL,0,'2024-05-27 15:19:11','2024-06-06 19:07:36'),(18,'Bang jay','jay','$2b$10$bJWzbgLkz5PwF3hZkyHkD./dWpxzqsVuPCUlxDV3aJwBpY9W5yfjG','bangajay@email.com',NULL,'2002-08-05',0,NULL,1,'2024-06-06 12:18:10','2024-06-08 07:25:11'),(19,'Bang jay','jayjay','$2b$10$Fe0vjIT8YytkfPfIxdUlyeku7ccYeLOSwKFlXHMr47aeYK..qTbyS','bangajayjay@email.com',NULL,'2002-08-05',0,NULL,0,'2024-06-07 02:50:11','2024-06-07 02:50:11'),(20,'Rian Abd','rianabd01','$2b$10$xZoW18GvrBeCQIh3ZefAZOKLXnoPVuSS0nRcunyLTRxd2Du.AzCVS','rianabd010203@gmail.com',NULL,'2002-08-05',0,NULL,0,'2024-06-07 03:26:52','2024-06-07 03:26:52');
+INSERT INTO `users` VALUES (1,'Sure App Admin','Admin1','$2b$10$6hRYV6Fhj/J2XokRJyrCV.kAupelXE1fSlQ0jccjtFDp9paVN2Sjm','suretrashfinderapp@gmail.com',NULL,'2024-06-08',100,NULL,1,'2024-06-08 14:20:55','2024-06-08 21:23:37'),(2,'Administrator','admin','admin','admin@gmail.com','0852435123',NULL,100,NULL,1,'2024-05-27 15:18:08','2024-06-08 21:23:04'),(3,'Seseorang','stranger','stranger',NULL,NULL,NULL,0,NULL,1,'2024-05-27 15:33:06','2024-06-08 06:03:40'),(4,'User 1','user','user','user@gmail.com','0859896718654',NULL,0,NULL,0,'2024-05-27 15:19:11','2024-06-06 19:07:36'),(6,'Ronaldo','user2','$2b$10$XIGC/TfLezsz2dk4akei8OFq5YZymxHgB2eKosQSNF1tVoNTfjaLa','email@email.com',NULL,'2002-05-04',0,NULL,1,'2024-06-05 02:46:58','2024-06-08 21:22:50'),(18,'Bang jay','jay','$2b$10$bJWzbgLkz5PwF3hZkyHkD./dWpxzqsVuPCUlxDV3aJwBpY9W5yfjG','bangajay@email.com',NULL,'2002-08-05',0,NULL,1,'2024-06-06 12:18:10','2024-06-08 07:25:11'),(19,'Bang jay','jayjay','$2b$10$Fe0vjIT8YytkfPfIxdUlyeku7ccYeLOSwKFlXHMr47aeYK..qTbyS','bangajayjay@email.com',NULL,'2002-08-05',0,NULL,0,'2024-06-07 02:50:11','2024-06-07 02:50:11'),(20,'Rian Abd','rianabd01','$2b$10$xZoW18GvrBeCQIh3ZefAZOKLXnoPVuSS0nRcunyLTRxd2Du.AzCVS','rianabd010203@gmail.com',NULL,'2002-08-05',0,NULL,0,'2024-06-07 03:26:52','2024-06-07 03:26:52'),(39,'Rian Wahyu Abdillah','rianabdillah','$2b$10$e8UjcCtIaeOL8dUhQX0NHuaEf5j6UXy0PaY5ETes4jw.i.5YlJOnG','rianwahyuab@gmail.com',NULL,'2002-08-05',0,NULL,1,'2024-06-09 10:34:15','2024-06-09 10:36:00');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -259,4 +260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-08  7:47:12
+-- Dump completed on 2024-06-09 18:22:54
