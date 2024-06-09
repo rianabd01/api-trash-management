@@ -41,10 +41,11 @@ http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
 Retrieve a list of trash reports.
 
 **Request:**
-GET /trash?location={location}&page={page}
+GET /trash?location={location}&page={page}$datesort={asc}
 
 - **location**: (Optional) Filter by location (e.g., "Jakarta").
 - **page**: (Optional) Page number for pagination (default is 1).
+- **datesort**: (Optional) asc or desc (default is desc).
 
 **Response JSON:**
 
@@ -293,7 +294,7 @@ password: (String) Must valid.
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsInVzZXJuYW1lIjoicmlhbmFiZDAxIiwiaWF0IjoxNzE3NzMwOTM0LCJleHAiOjE3MjAzMjI5MzR9.a3DAMqjssEoJGksFo05ahECLGf_c4QqRstPqT9asOxY",
+  "token": "token_login",
   "full_name": "User full_name"
 }
 ```

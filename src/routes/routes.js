@@ -71,6 +71,14 @@ const routes = [
     path: '/verify-otp',
     handler: verifyOTPHandler,
   },
+  // Catch-all route for unknown paths
+  {
+    method: '*',
+    path: '/{any*}',
+    handler: (request, h) =>
+      // eslint-disable-next-line implicit-arrow-linebreak
+      h.response({ status: 'fail', message: 'Page Not Found' }).code(404),
+  },
 ];
 
 module.exports = routes;

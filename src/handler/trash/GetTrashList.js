@@ -5,7 +5,7 @@ const sequelize = require('../../sequelize');
 
 dotenv.config();
 const getTrashList = async (request, h) => {
-  const { location, page = 1 } = request.query;
+  const { location, page = 1, datesort = 'desc' } = request.query;
 
   const limit = 20;
   const offset = (page - 1) * limit;
@@ -34,6 +34,7 @@ const getTrashList = async (request, h) => {
           [Op.notIn]: sequelize.literal('(SELECT trash_id FROM trash_proof)'),
         },
       },
+      order: [['created_at', datesort]],
 
       limit,
       offset,
