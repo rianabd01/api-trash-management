@@ -13,7 +13,7 @@ http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
 Retrieve a list of trash reports.
 
 **Request:**
-GET /trash?location={location}&page={page}$datesort={asc}
+GET /trash?location={location}&page={page}
 
 - **location**: (Optional) Filter by location (e.g., "Jakarta").
 - **page**: (Optional) Page number for pagination (default is 1).
