@@ -100,8 +100,8 @@ const postTrashHandler = async (request, h) => {
       .response({
         status: 'success',
         message: 'upload success!',
-        data: {
-          trash_id: trash.trash_id,
+        results: {
+          id: trash.trash_id,
         },
       })
       .code(201);

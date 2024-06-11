@@ -6,6 +6,9 @@ const loginHandler = require('../handler/auth/LoginHandler');
 const registerHandler = require('../handler/auth/RegisterHandler');
 const postTrashProofHandler = require('../handler/trash/PostTrashProof');
 const verifyOTPHandler = require('../handler/auth/VerifyOTPHandler');
+const getFinishedTrashList = require('../handler/trash/GetFinishedTrashList');
+const getFinishedTrashDetail = require('../handler/trash/GetFinishedTrashDetail');
+const getCitiesHandler = require('../handler/trash/GetCities');
 
 const routes = [
   {
@@ -30,6 +33,21 @@ const routes = [
     method: 'GET',
     path: '/trash/{id}',
     handler: getTrashDetail,
+  },
+  {
+    method: 'GET',
+    path: '/finished',
+    handler: getFinishedTrashList,
+  },
+  {
+    method: 'GET',
+    path: '/finished/{id}',
+    handler: getFinishedTrashDetail,
+  },
+  {
+    method: 'GET',
+    path: '/cities',
+    handler: getCitiesHandler,
   },
 
   // Proof cleaned trash

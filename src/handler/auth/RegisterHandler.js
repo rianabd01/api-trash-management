@@ -96,10 +96,8 @@ const registerHandler = async (request, h) => {
         status: 'success',
         message:
           'register success! Please check your email for OTP verification.',
-        data: {
-          user_id: user.user_id,
-          full_name: user.full_name,
-          username: user.username,
+        results: {
+          id: user.user_id,
         },
       })
       .code(201);

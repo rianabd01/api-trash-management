@@ -1,10 +1,14 @@
 const { Op } = require('sequelize');
 const dotenv = require('dotenv');
-const { Trash, Pictures, Cities } = require('../../associations/index');
-// const sequelize = require('../../sequelize');
+const {
+  Trash,
+  Cities,
+  TrashProof,
+  ProofPictures,
+} = require('../../associations/index');
 
 dotenv.config();
-const getTrashList = async (request, h) => {
+const getFinishedTrashList = async (request, h) => {
   const { location, page = 1, datesort = 'desc' } = request.query;
 
   const limit = 20;
@@ -20,14 +24,25 @@ const getTrashList = async (request, h) => {
           where: location ? { name: { [Op.like]: `%${location}%` } } : {},
         },
         {
-          model: Pictures,
-          as: 'pictures',
-          attributes: ['image_path'],
+          model: TrashProof,
+          attributes: ['user_message', 'is_verified'],
+          where: {
+            is_verified: 1,
+          },
+          include: [
+            {
+              model: ProofPictures,
+              as: 'proof_pictures',
+              attributes: ['image_path'],
+            },
+          ],
         },
       ],
       where: {
         is_verified: 1,
-        user_finisher_id: 0,
+        user_finisher_id: {
+          [Op.ne]: '0',
+        },
         is_deleted: 0,
       },
       order: [['created_at', datesort]],
@@ -55,11 +70,11 @@ const getTrashList = async (request, h) => {
     const results = trashList.map((trash) => ({
       id: trash.trash_id,
       title: trash.title,
-      description: trash.description,
+      finisher_message: trash.TrashProofs[0].user_message,
       city: trash.cities.name,
       pictures:
-        trash.pictures.length > 0
-          ? serverHostURL + trash.pictures[0].image_path
+        trash.TrashProofs[0].proof_pictures.length > 0
+          ? serverHostURL + trash.TrashProofs[0].proof_pictures[0].image_path
           : null,
     }));
 
@@ -81,4 +96,4 @@ const getTrashList = async (request, h) => {
   }
 };
 
-module.exports = getTrashList;
+module.exports = getFinishedTrashList;

@@ -14,25 +14,9 @@ const postTrashProofHandler = async (request, h) => {
 
   // Check is user login
   const userId = await getUserIdFromToken(request);
-
+  console.log('userrrr', userId);
   let transaction;
   try {
-    const trashProofExists = await TrashProof.findOne({
-      where: {
-        trash_id: id,
-      },
-    });
-
-    // Check is trash have a proof
-    if (trashProofExists) {
-      return h
-        .response({
-          status: 'fail',
-          message: 'trash approve is pending',
-        })
-        .code(403);
-    }
-
     transaction = await sequelize.transaction();
     const trashProof = await TrashProof.create(
       {
@@ -108,9 +92,8 @@ const postTrashProofHandler = async (request, h) => {
       .response({
         status: 'success',
         message: 'upload proof success!',
-        data: {
-          trash_proof_id: trashProof.trash_proof_id,
-          trash_id: trashProof.trash_id,
+        results: {
+          id: trashProof.trash_proof_id,
         },
       })
       .code(201);

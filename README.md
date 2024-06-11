@@ -36,7 +36,7 @@ http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
 
 ## Endpoints
 
-### 1. GET /trash
+### 1. GET TRASH LIST
 
 Retrieve a list of trash reports.
 
@@ -53,16 +53,16 @@ GET /trash?location={location}&page={page}$datesort={asc}
 {
   "status": "success",
   "message": "success GET trash list",
-  "result": [
+  "resulst": [
     {
-      "trash_id": 22,
+      "id": 22,
       "title": "Sampah kali",
       "description": "Banyak sampah plastik",
       "city": "Kota Jakarta Timur",
       "pictures": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717715898683_goDRWdIqadOU22_1.jpg"
     },
     {
-      "trash_id": 23,
+      "id": 23,
       "title": "Sampah pinggir jalan",
       "description": "Banyak sampah daun",
       "city": "Kota Jakarta Pusat",
@@ -72,7 +72,7 @@ GET /trash?location={location}&page={page}$datesort={asc}
 }
 ```
 
-### 2. GET DETAIL /trash
+### 2. GET TRASH REPORT DETAIL
 
 Retrieve detailed information about a specific trash report.
 
@@ -86,27 +86,123 @@ GET /trash/:id
 {
   "status": "success",
   "message": "success GET detail",
-  "result": {
-    "id": 1,
-    "title": "Sampah",
-    "description": "Banyak sampah plastik",
-    "city_id": 1,
+  "results": {
+    "id": 3,
+    "title": "Sampah di gang",
+    "description": "Sungainya penuh sampah, airnya sangat keruh. Plastik, botol, dan sisa makanan mengapung, mencemari air. Tercium bau tak sedap, dan mengganggu suasana. Pemandangan ini bikin saya prihatin, butuh perhatian dan aksi nyata agar kali kembali bersih.",
+    "city": "Kota Jakarta Timur",
     "address": "Jl Ahmad Dahlan",
     "location_url": "maps.google.com",
-    "uploader_id": 3,
-    "uploader": "Seseorang",
+    "uploader_id": 20,
+    "uploader_name": "Rian Abd",
     "pictures": [
       "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993077_LaTjfCiTisGo24_1.jpg",
       "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993094_GLMMwClAMirH24_2.png",
       "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993105_rTbUGGIONoWL24_3.png"
-    ],
-    "is_proofed": 1, // If anyone sending proof, it will be 1 (true)
-    "is_finished": 1 // If proof sended by anyone and verified by admin, it will be 1 (true)
+    ]
   }
 }
 ```
 
-### 3. POST /trash
+### 3. GET FINISHED TRASH LIST
+
+Retrieve a list of cleaned trash.
+
+**Request:**
+GET /finished?location={location}&page={page}$datesort={asc}
+
+- **location**: (Optional) Filter by location (e.g., "Jakarta").
+- **page**: (Optional) Page number for pagination (default is 1).
+- **datesort**: (Optional) asc or desc (default is desc).
+
+**Response JSON:**
+
+```json
+{
+  "status": "success",
+  "message": "success GET trash list",
+  "results": [
+    {
+      "id": 4,
+      "title": "Sampah menyumbat got",
+      "finisher_message": "Sudah kami bersihkan bersama kawan-kawan komuniatas PeduliSampah. Kami harap kita semua lebih peduli untuk menjaga kebersihan. Jangan buang sampah sembarangan, mari kita rawat lingkungan bersama-sama. Jika kita semua berkontribusi, kali ini bisa tetap bersih dan indah.",
+      "city": "Kecamatan Bekasi Timur",
+      "pictures": "localhost:9000/uploads/proof/1717929579979_aEWDNVQfQaEV4_1.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Sampah Jalan",
+      "finisher_message": "Setelah melihat website sure, saya langsung bergegas dan membersihkan sampah yang ada dijalan. Sekarang sudah bersih dan juga sudah saya kasih tempat sampah sementara",
+      "city": "Kecamatan Karangtengah",
+      "pictures": "localhost:9000/uploads/proof/1718016066108_zZcogMKVpoek5_1.jpg"
+    }
+  ]
+}
+```
+
+### 4. GET FINISHED TRASH DETAIL
+
+Retrieve detailed information about a specific cleaned trash.
+
+**Request:**
+GET /finished/:id
+: The ID of the trash report.
+
+**Response JSON:**
+
+```json
+{
+  "status": "success",
+  "message": "success GET detail",
+  "results": {
+    "id": 5,
+    "title": "Sampah Jalan",
+    "finisher_message": "Setelah melihat website sure, saya langsung bergegas dan membersihkan sampah yang ada dijalan. Sekarang sudah bersih dan juga sudah saya kasih tempat sampah sementara",
+    "city": "Kecamatan Karangtengah",
+    "address": "Jl Sumatera",
+    "location_url": "https://maps.app.goo.gl/FD5oPzubTZZv3nbf9",
+    "finisher_id": 3,
+    "finisher_name": "Seseorang",
+    "pictures": [
+      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/1718016066108_zZcogMKVpoek5_1.jpg",
+      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/1718016066120_juHvvfcGEYmj5_2.png",
+      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/1718016066127_epDDpNNxUGpn5_3.png"
+    ]
+  }
+}
+```
+
+### 5. GET CITIES
+
+City List
+
+**Request:**
+GET /cities
+
+**Response JSON:**
+
+```json
+{
+  "status": "success",
+  "message": "success GET cities",
+  "results": {
+    "Jakarta": [
+      {
+        "id": 1,
+        "name": "Kota Jakarta Timur"
+      }
+    ],
+    "Bogor": [
+      {
+        "id": 7,
+        "name": "Kecamatan Bogor Timur"
+      }
+    ]
+  }
+}
+```
+
+### 6. POST /trash
 
 Create a new trash report. NULL values are disallowed for all fields.
 
@@ -153,13 +249,13 @@ If user authorization is valid, the post trash have user_id data who upload. if 
 {
   "status": "success",
   "message": "upload success!",
-  "data": {
-    "trash_id": 1
+  "results": {
+    "id": 1
   }
 }
 ```
 
-### 4. POST TRASH PROOF /trash/proof/:id
+### 7. POST TRASH PROOF /trash/proof/:id
 
 Create a proof if trash is cleaned. NULL values are disallowed for all fields.
 
@@ -182,10 +278,11 @@ gambar3: (File) Image file of cleaned trash.
 
 ```json
 {
-  "user_message": "Sudah saya bersihkan",
-  "gambar1": "file_image_1.jpg",
-  "gambar2": "file_image_2.jpeg",
-  "gambar3": "file_image_3.png"
+  "status": "success",
+  "message": "upload proof success!",
+  "results": {
+    "id": 5
+  }
 }
 ```
 
@@ -194,18 +291,7 @@ If user authorization is valid, the post trash proof have user_id data who uploa
 
 **Response JSON:**
 
-```json
-{
-  "status": "success",
-  "message": "upload proof success!",
-  "data": {
-    "trash_proof_id": 16,
-    "trash_id": "24"
-  }
-}
-```
-
-### 5. POST USER REGISTER /register
+### 8. POST USER REGISTER
 
 Register new user
 
@@ -238,15 +324,13 @@ password: (String) up to you.
 {
   "status": "success",
   "message": "register success! Please check your email for OTP verification.",
-  "data": {
-    "user_id": 1,
-    "full_name": "User full name",
-    "username": "user"
+  "results": {
+    "id": 1
   }
 }
 ```
 
-### 6. POST USER OTP VERIFY /verify-otp
+### 9. POST USER OTP VERIFY
 
 Verify otp before login
 
@@ -276,9 +360,9 @@ otp: (INTEGER) Must valid from user email inbox.
 }
 ```
 
-### 7. POST USER LOGIN /login
+### 10. POST USER LOGIN
 
-Login
+Login user
 
 **Request:**
 POST /login
@@ -298,16 +382,6 @@ password: (String) Must valid.
   "full_name": "User full_name"
 }
 ```
-
-# Usage Examples
-
-### Example 1: Get a list of trash reports in Jakarta
-
-GET /trash?location=Jakarta&page=1
-
-### Example 2: Get details of a specific trash report with ID 1
-
-GET /trash/1
 
 # POSTMAN TEST
 

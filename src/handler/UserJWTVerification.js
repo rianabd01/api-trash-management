@@ -15,7 +15,6 @@ function getUserIdFromToken(req) {
       return decoded.id;
     } catch (error) {
       console.log('token invalid, you will be anonymous');
-      // return 'token invalid';
     }
   }
 }

@@ -1,9 +1,15 @@
 const dotenv = require('dotenv');
-// eslint-disable-next-line object-curly-newline
-const { Trash, Pictures, Cities, Users } = require('../../associations/index');
+const { Op } = require('sequelize');
+const {
+  Trash,
+  Cities,
+  Users,
+  TrashProof,
+  ProofPictures,
+} = require('../../associations/index');
 
 dotenv.config();
-const getTrashDetail = async (request, h) => {
+const getFinishedTrashDetail = async (request, h) => {
   const { id } = request.params;
 
   try {
@@ -11,15 +17,12 @@ const getTrashDetail = async (request, h) => {
       where: {
         trash_id: id,
         is_verified: 1,
-        user_finisher_id: 0,
+        user_finisher_id: {
+          [Op.ne]: '0',
+        },
         is_deleted: 0,
       },
       include: [
-        {
-          model: Pictures,
-          as: 'pictures',
-          attributes: ['image_path'],
-        },
         {
           model: Cities,
           as: 'cities',
@@ -29,6 +32,24 @@ const getTrashDetail = async (request, h) => {
           model: Users,
           as: 'users',
           attributes: ['full_name', 'user_id'],
+        },
+        {
+          model: TrashProof,
+          attributes: ['trash_proof_id', 'user_id', 'user_message'],
+          include: [
+            {
+              model: Users,
+              attributes: ['full_name'],
+            },
+            {
+              model: ProofPictures,
+              as: 'proof_pictures',
+              attributes: ['image_path'],
+            },
+          ],
+          where: {
+            is_verified: 1,
+          },
         },
       ],
     });
@@ -60,13 +81,13 @@ const getTrashDetail = async (request, h) => {
     const results = {
       id: trash.trash_id,
       title: trash.title,
-      description: trash.description,
+      finisher_message: trash.TrashProofs[0].user_message,
       city: trash.cities.name,
       address: trash.address,
       location_url: trash.location_url,
-      uploader_id: trash.users.user_id,
-      uploader_name: trash.users.full_name,
-      pictures: trash.pictures.map(
+      finisher_id: trash.TrashProofs[0].user_id,
+      finisher_name: trash.TrashProofs[0].User.full_name,
+      pictures: trash.TrashProofs[0].proof_pictures.map(
         (picture) => `${serverHostURL}${picture.image_path}`,
       ),
     };
@@ -89,4 +110,4 @@ const getTrashDetail = async (request, h) => {
   }
 };
 
-module.exports = getTrashDetail;
+module.exports = getFinishedTrashDetail;

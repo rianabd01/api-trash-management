@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 
 const ProofPictures = sequelize.define(
-  'Proofictures',
+  'ProofPictures',
   {
     picture_id: {
       type: DataTypes.INTEGER,
