@@ -2,34 +2,6 @@
 
 This API provides endpoints for managing trash reports, including creating, listing, and viewing details of trash reports. Below is a detailed guide on how to use the API.
 
-## Requirements
-
-Node.js Version: v20.13.1
-Database Import: root folder ./db_sure.sql
-
-## Usage Steps
-
-- Make sure you have a correct node version
-- Import the database ./db_sure.sql into your MySql Server
-- Create .env like .env.examples (Fill all fields and view notes)
-- And then run the server with Dev: npm run start-dev or npm start
-
-**ENV**
-
-```json
-SERVER_PORT= 9000
-SERVER_HOST='localhost'
-MYSQL_HOST='localhost'
-MYSQL_USER='root'
-MYSQL_PASSWORD='pass'
-MYSQL_DB='sure_application'
-JWT_KEY='your_jwt_key'
-EMAIL_SERVICE='email@gmail.com'
-SERVICE_EMAIL_PASSWORD='your_app_password'
-```
-
-**notes:** Setting your APP Pasword in your Google Email
-
 ## Base URL
 
 http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
@@ -41,11 +13,10 @@ http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
 Retrieve a list of trash reports.
 
 **Request:**
-GET /trash?location={location}&page={page}$datesort={asc}
+GET /trash?location={location}&page={page}
 
 - **location**: (Optional) Filter by location (e.g., "Jakarta").
 - **page**: (Optional) Page number for pagination (default is 1).
-- **datesort**: (Optional) asc or desc (default is desc).
 
 **Response JSON:**
 
