@@ -8,7 +8,7 @@ const cleanUpExpiredData = require('./cleanUpExpiredData');
 const init = async () => {
   const server = Hapi.server({
     port: process.env.SERVER_PORT,
-    host: '0.0.0.0',
+    host: '0.0.0.0', // Change to more specific IP if needed
   });
 
   await server.register(Inert);
