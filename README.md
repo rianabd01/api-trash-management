@@ -1,19 +1,59 @@
-# Trash Management API
+# **Trash Management API**
+
+## **Overview**
 
 This API provides endpoints for managing trash reports, including creating, listing, and viewing details of trash reports. Below is a detailed guide on how to use the API.
 
-## Base URL
+## **Features**
 
-http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/
+- Register, OTP Verification with nodemailer (add your gmail and setting app password), Login with JWT
+- Flexible Usage: Can post as a logged-in user or post anonymously if not logged in
+- Automatic Data Removal: If a user has not verified their account, data will be automatically removed from the database using 'node-cron' (every 02:00 AM)
+- Post Trash Reports
+- Find Trash Location
+- Post Finished Cleaning Trash
+- Show Trash That Was Finished Cleaning
 
-## Endpoints
+## **Installation**
+
+### Requirements
+
+- Node v20.13.1
+- MySQL Server
+- Postman
+
+### Steps
+
+1. **Install All Requirements**
+   - Install Node.js v20.13.1
+   - Install MySQL Server
+   - Install Postman
+2. **Import Database**
+   - Import `./db.sql` to your MySQL Database
+3. **Set .env**
+   - Set your environment variables as specified in `.env.example`.
+   - The email service must use Gmail and require an app password.
+4. **Run Node.js**
+   - Open Terminal and run `npm install`
+   - Run `npm start` or `npm run start-dev`
+
+## API Base URL
+
+```
+https://sure-api.riandev.xyz/ or your localhost:port
+```
+
+## API Endpoints
 
 ### 1. GET TRASH LIST
 
 Retrieve a list of trash reports.
 
 **Request:**
+
+```
 GET /trash?location={location}&page={page}
+```
 
 - **location**: (Optional) Filter by location (e.g., "Jakarta").
 - **page**: (Optional) Page number for pagination (default is 1).
@@ -24,20 +64,20 @@ GET /trash?location={location}&page={page}
 {
   "status": "success",
   "message": "success GET trash list",
-  "resulst": [
+  "results": [
     {
       "id": 22,
       "title": "Sampah kali",
       "description": "Banyak sampah plastik",
       "city": "Kota Jakarta Timur",
-      "pictures": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717715898683_goDRWdIqadOU22_1.jpg"
+      "pictures": "https://sure-api.riandev.xyz/uploads/trash/1717715898683_goDRWdIqadOU22_1.jpg"
     },
     {
       "id": 23,
       "title": "Sampah pinggir jalan",
       "description": "Banyak sampah daun",
       "city": "Kota Jakarta Pusat",
-      "pictures": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716867932_ZgqWSBBozhZe23_1.jpg"
+      "pictures": "https://sure-api.riandev.xyz/uploads/trash/1717716867932_ZgqWSBBozhZe23_1.jpg"
     }
   ]
 }
@@ -48,8 +88,10 @@ GET /trash?location={location}&page={page}
 Retrieve detailed information about a specific trash report.
 
 **Request:**
+
+```
 GET /trash/:id
-: The ID of the trash report.
+```
 
 **Response JSON:**
 
@@ -67,9 +109,9 @@ GET /trash/:id
     "uploader_id": 20,
     "uploader_name": "Rian Abd",
     "pictures": [
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993077_LaTjfCiTisGo24_1.jpg",
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993094_GLMMwClAMirH24_2.png",
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/trash/1717716993105_rTbUGGIONoWL24_3.png"
+      "https://sure-api.riandev.xyz/uploads/trash/1717716993077_LaTjfCiTisGo24_1.jpg",
+      "https://sure-api.riandev.xyz/uploads/trash/1717716993094_GLMMwClAMirH24_2.png",
+      "https://sure-api.riandev.xyz/uploads/trash/1717716993105_rTbUGGIONoWL24_3.png"
     ]
   }
 }
@@ -80,7 +122,10 @@ GET /trash/:id
 Retrieve a list of cleaned trash.
 
 **Request:**
-GET /finished?location={location}&page={page}$datesort={asc}
+
+```
+GET /finished?location={location}&page={page}&datesort={asc}
+```
 
 - **location**: (Optional) Filter by location (e.g., "Jakarta").
 - **page**: (Optional) Page number for pagination (default is 1).
@@ -116,8 +161,10 @@ GET /finished?location={location}&page={page}$datesort={asc}
 Retrieve detailed information about a specific cleaned trash.
 
 **Request:**
+
+```
 GET /finished/:id
-: The ID of the trash report.
+```
 
 **Response JSON:**
 
@@ -135,9 +182,9 @@ GET /finished/:id
     "finisher_id": 3,
     "finisher_name": "Seseorang",
     "pictures": [
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/1718016066108_zZcogMKVpoek5_1.jpg",
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/1718016066120_juHvvfcGEYmj5_2.png",
-      "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/uploads/proof/1718016066127_epDDpNNxUGpn5_3.png"
+      "https://sure-api.riandev.xyz/uploads/proof/1718016066108_zZcogMKVpoek5_1.jpg",
+      "https://sure-api.riandev.xyz/uploads/proof/1718016066120_juHvvfcGEYmj5_2.png",
+      "https://sure-api.riandev.xyz/uploads/proof/1718016066127_epDDpNNxUGpn5_3.png"
     ]
   }
 }
@@ -145,10 +192,13 @@ GET /finished/:id
 
 ### 5. GET CITIES
 
-City List
+Retrieve a list of cities.
 
 **Request:**
+
+```
 GET /cities
+```
 
 **Response JSON:**
 
@@ -173,33 +223,25 @@ GET /cities
 }
 ```
 
-### 6. POST /trash
+### 6. POST TRASH
 
 Create a new trash report. NULL values are disallowed for all fields.
 
 **Request:**
+
+```
+POST /trash
+```
+
 Headers:
 
 ```json
-Content-Type: multipart/form-data,
 Authorization: `Bearer ${token}`,
 ```
 
-Body:
+**Notes:** Authorization is optional. If authorization is not found, you will post the trash report as anonymous.
 
-```json
-title: (String) Title of the trash report.
-description: (String) Description of the trash problem.
-city_id: (Integer) ID of the city where the trash is located.
-address: (String) Address of the trash location.
-location_url: (String) URL to the location on a map.
-gambar1: (File) Image file of the trash.
-gambar2: (File) Image file of the trash.
-gambar3: (File) Image file of the trash.
-```
-
-**notes:**
-If user authorization is valid, the post trash have user_id data who upload. if invalid, set default anonymous uploader
+**Body:**
 
 ```json
 {
@@ -226,26 +268,36 @@ If user authorization is valid, the post trash have user_id data who upload. if 
 }
 ```
 
-### 7. POST TRASH PROOF /trash/proof/:id
+### 7. POST TRASH PROOF
 
-Create a proof if trash is cleaned. NULL values are disallowed for all fields.
+Create proof that trash is cleaned. NULL values are disallowed for all fields.
 
 **Request:**
+
+```
+POST /trash/proof/:id
+```
+
 Headers:
 
 ```json
-Content-Type: multipart/form-data,
 Authorization: `Bearer ${token}`,
 ```
 
-Body:
+**Notes:** Authorization is optional. If authorization is not found, you will post trash proof as anonymous.
+
+**Body:**
 
 ```json
-user_message: (String) Message from user.
-gambar1: (File) Image file of cleaned trash.
-gambar2: (File) Image file of cleaned trash.
-gambar3: (File) Image file of cleaned trash.
+{
+  "user_message": "Message from user",
+  "gambar1": "file_image_1.jpg",
+  "gambar2": "file_image_2.jpeg",
+  "gambar3": "file_image_3.png"
+}
 ```
+
+**Response JSON:**
 
 ```json
 {
@@ -257,27 +309,17 @@ gambar3: (File) Image file of cleaned trash.
 }
 ```
 
-**notes:**
-If user authorization is valid, the post trash proof have user_id data who upload. if invalid, set default anonymous uploader
-
-**Response JSON:**
-
 ### 8. POST USER REGISTER
 
-Register new user
+Register a new user.
 
 **Request:**
-POST /register
 
-Body:
-
-```json
-full_name: (String) User full name.
-date_of_birth: (Date) User date of birth.
-email: (Email) Must unique and valid.
-username: (String) Must unique.
-password: (String) up to you.
 ```
+POST /register
+```
+
+**Body:**
 
 ```json
 {
@@ -303,17 +345,15 @@ password: (String) up to you.
 
 ### 9. POST USER OTP VERIFY
 
-Verify otp before login
+Verify OTP before login.
 
 **Request:**
-POST /verify-otp
 
-Body:
-
-```json
-email: (Email) Must unique and valid.
-otp: (INTEGER) Must valid from user email inbox.
 ```
+POST /verify-otp
+```
+
+**Body:**
 
 ```json
 {
@@ -333,16 +373,21 @@ otp: (INTEGER) Must valid from user email inbox.
 
 ### 10. POST USER LOGIN
 
-Login user
+Login user.
 
 **Request:**
-POST /login
 
-Body:
+```
+POST /login
+```
+
+**Body:**
 
 ```json
-username: (String) Must valid.
-password: (String) Must valid.
+{
+  "username": "user",
+  "password": "user"
+}
 ```
 
 **Response JSON:**
@@ -354,15 +399,23 @@ password: (String) Must valid.
 }
 ```
 
-# POSTMAN TEST
+## POSTMAN TEST
 
-**_Import the POSTMAN Collections :_** ./Sure API Test.postman_collection.json
+**Import the POSTMAN Collections:**
 
-# Notes
+```
+./Sure API Deploy.postman_collection.json
+```
 
-- Ensure that the files (gambar1, gambar2, gambar3) are uploaded as multipart/form-data.
-- The city_id should be a valid city ID from database.
+**Register Account with Postman**
 
+- Register an account with Postman
+- Verify your OTP with the OTP endpoint
+- If you want to create an admin account, set the level field in the users table to 100 (Integer)
+
+## Notes
+
+- The city_id should be a valid city ID from the database.
 - For successful data retrieval, use the correct endpoint and parameters.
 
 **This documentation provides a comprehensive guide to the Trash Management API, facilitating effective integration and usage.**

@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "a5e9b60c-1fc4-4dd2-9e74-be255dd464a9",
+		"name": "Sure API Deploy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30798391"
+	},
+	"item": [
+		{
+			"name": "Registrasi user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"full_name\": \"Bang Jay\",\r\n    \"date_of_birth\": \"2002-08-05\",\r\n    \"email\": \"rianwahyuabd@gmail.com\",\r\n    \"username\": \"bangjay\",\r\n    \"password\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/register"
+			},
+			"response": []
+		},
+		{
+			"name": "OTP Verifying",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"rianwahyuabd@gmail.com\",\r\n    \"otp\": \"559706\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/verify-otp"
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"bangjay\",\r\n    \"password\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Laporkan Sampah",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInVzZXJuYW1lIjoicmlhbmFiZDAyIiwiaWF0IjoxNzE4MDMyMzk3LCJleHAiOjE3MjA2MjQzOTd9.QtNxuHOmADtUjrqeAlbbXxM8tQjU6m2eRHNfoBkcR1o",
+						"description": "token",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Sampah di taman Tibet",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Taman yang seharusnya menjadi ruang nyaman malah ada banyak sampah berserakan, ayo kita jaga taman tibet agar enak dipandang.",
+							"type": "text"
+						},
+						{
+							"key": "city_id",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Jl Tibet Raya",
+							"type": "text"
+						},
+						{
+							"key": "location_url",
+							"value": "https://maps.app.goo.gl/p8rJTdCxEp8TYMM87",
+							"type": "text"
+						},
+						{
+							"key": "gambar1",
+							"type": "file",
+							"src": "postman-cloud:///1ef2a17d-2433-4910-afe4-a64b30157db4"
+						},
+						{
+							"key": "gambar2",
+							"type": "file",
+							"src": "postman-cloud:///1ef2a17d-2433-4910-afe4-a64b30157db4"
+						},
+						{
+							"key": "gambar3",
+							"type": "file",
+							"src": "postman-cloud:///1ef2a17d-2433-4910-afe4-a64b30157db4"
+						}
+					]
+				},
+				"url": "https://sure-api.riandev.xyz/trash"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload bukti pembersiha",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInVzZXJuYW1lIjoicmlhbmFiZDAyIiwiaWF0IjoxNzE4MDMyMzk3LCJleHAiOjE3MjA2MjQzOTd9.QtNxuHOmADtUjrqeAlbbXxM8tQjU6m2eRHNfoBkcR1o",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_message",
+							"value": "Kami bersama kelompok Pandawa sudah membersihkan sampah di sungai ini, sungan sudah mengalir dengan lancar, kami juga sudah mengedukasi masyarakat sekitar dan memasang plang di pinggiran sungai",
+							"type": "text"
+						},
+						{
+							"key": "gambar1",
+							"type": "file",
+							"src": "postman-cloud:///1ef2a18e-3313-47d0-ba69-000297a0c716"
+						},
+						{
+							"key": "gambar2",
+							"type": "file",
+							"src": "postman-cloud:///1ef2a18e-3313-47d0-ba69-000297a0c716"
+						},
+						{
+							"key": "gambar3",
+							"type": "file",
+							"src": "postman-cloud:///1ef2a18e-3313-47d0-ba69-000297a0c716"
+						}
+					]
+				},
+				"url": "https://sure-api.riandev.xyz/trash/proof/11"
+			},
+			"response": []
+		},
+		{
+			"name": "Daftar sampah perlu dibersihkan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sure-api.riandev.xyz/trash?page=1&datesort=asc",
+					"protocol": "https",
+					"host": [
+						"sure-api",
+						"riandev",
+						"xyz"
+					],
+					"path": [
+						"trash"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "datesort",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detail sampah",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/trash/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Detail sampah selesai dibersihkan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/finished/6"
+			},
+			"response": []
+		},
+		{
+			"name": "Daftar sampah sudah dibersihkan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sure-api.riandev.xyz/finished?page=1&datesort=asc",
+					"protocol": "https",
+					"host": [
+						"sure-api",
+						"riandev",
+						"xyz"
+					],
+					"path": [
+						"finished"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "datesort",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Daftar kota dan kecamatan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://ec2-3-1-220-87.ap-southeast-1.compute.amazonaws.com/cities"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "\"TOKENASAL\""
+		}
+	]
+}
